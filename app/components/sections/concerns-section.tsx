@@ -4,7 +4,6 @@ import Image from 'next/image';
 const concernsData = [
     {
       text: "肩こりや腰痛が慢性化している",
-      // ご自身で用意した画像のパスを指定してください
       imageSrc: "/images/Stress-pana.svg",
       alt: "肩こりに悩む人のイラスト",
     },

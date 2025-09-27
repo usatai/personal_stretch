@@ -38,7 +38,7 @@ const HeroSection: FC = () => {
       {/* コンテンツ */}
       <div className="relative z-10 flex flex-col items-center justify-center max-w-3xl md:max-w-4xl mx-auto text-center px-4">
         <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-8 drop-shadow-xl leading-tight">
-          体の芯から<br className="hidden md:inline" /><span className="text-blue-500">本物のストレッチ体験</span>を。
+          体の芯から<br /><span className="text-blue-500">本物のストレッチ体験</span>を。
         </h1>
         <p className="text-lg md:text-2xl text-gray-700 mb-10 leading-relaxed font-medium">
           大手企業で培った技術を持つトレーナーによるパーソナル施術で<br className="hidden md:inline" />柔軟性・姿勢・疲労感を根本から改善。<br className="hidden md:inline" />

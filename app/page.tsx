@@ -3,6 +3,7 @@ import HeroSection from './components/sections/hero-section';
 import ConcernsSection from "./components/sections/concerns-section";
 import FeatureLayout from './components/feature-layout';
 import Contact from './components/contact';
+import TrainerSection from './components/sections/trainer-section';
 
 // Sectionコンポーネントの新しいprops定義
 interface SectionProps {
@@ -46,20 +47,21 @@ export default function Home() {
       <ConcernsSection />
 
       {/* 3. 新しいSectionとFeatureLayoutを使ってコンテンツを配置 */}
-      <Section id="first-time" subTitle="FEATURES" mainTitle="田島ストレッチの特徴">
+      <Section id="first-time" subTitle="FEATURES" mainTitle="田島ストレッチの特徴" className="bg-white">
         <div className="space-y-20">
           <FeatureLayout
-            imageSrc="/images/feature-1.jpg" // NOTE: 実際の画像パスに置き換えてください
+            imageSrc="/images/pro-stretch.jpeg" 
             alt="トレーナーがマンツーマンで指導している様子"
             title="プロのトレーナーによる完全マンツーマン指導"
             description={feature1Description}
+            imageClassName="rounded-2xl"
           />
           <FeatureLayout
-            imageSrc="/images/feature-2.jpg" // NOTE: 実際の画像パスに置き換えてください
+            imageSrc="/images/stretchBed.png" 
             alt="自宅でリラックスしながらストレッチを受ける様子"
             title="ご自宅で受けられるから、移動時間ゼロ"
             description={feature2Description}
-            reverse={true} // これで画像が右側に配置される
+            reverse={true} 
           />
         </div>
       </Section>
@@ -73,10 +75,10 @@ export default function Home() {
       </Section>
 
       <Section id="trainer" subTitle="TRAINER" mainTitle="トレーナー" className="bg-slate-50">
-        <p className="text-center text-gray-600">（このセクションは現在準備中です）</p>
+        <TrainerSection />
       </Section>
 
-      <Section id="price" subTitle="PRICE" mainTitle="料金" className="bg-slate-50">
+      <Section id="price" subTitle="PRICE" mainTitle="料金">
         <p className="text-center text-gray-600">（このセクションは現在準備中です）</p>
       </Section>
 

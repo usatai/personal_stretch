@@ -4,34 +4,35 @@ import { ArrowRight } from 'lucide-react';
 import type { FC } from 'react';
 
 // 動画・画像のパスはpropsで受け取れるよう拡張も可能（現状は動画優先で仮パス）
-const videoSrc = "/videos/hero.mp4"; // public/videos/hero.mp4 を想定
-const imageSrc = "/images/32565973_m.jpg";
+const imageSrc = "/images/stretch.png";
+const spImageSrc = "/images/stretchSmartPhone.png";
 
 const HeroSection: FC = () => {
   return (
-    <section className="relative w-full min-h-[70vh] flex items-center justify-center bg-white overflow-hidden py-24">
+    <section className="relative w-full min-h-[60vh] md:min-h-[80vh] lg:min-h-[85vh] flex items-center justify-center bg-white overflow-hidden py-16 md:py-24">
       {/* 背景動画 or 画像 */}
       <div className="absolute inset-0 z-0">
-        {videoSrc ? (
-          <video
-            src={videoSrc}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover object-center brightness-95"
-            poster={imageSrc}
-            aria-label="ストレッチ施術のイメージ動画"
-          />
-        ) : (
-          <Image
+        {/* PC用画像 (mdサイズ以上で表示) */}
+        <Image
             src={imageSrc}
             alt="ストレッチ施術のイメージ"
             fill
-            className="object-cover object-center brightness-95"
+            className="hidden md:block object-cover object-[50%_35%] md:object-center brightness-95"
             priority
-          />
-        )}
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1200px"
+            quality={85}
+        />
+        {/* スマホ用画像 (mdサイズ未満で表示) */}
+        <Image
+            src={spImageSrc} // ★ 新しく用意したスマホ用の画像パス
+            alt="ストレッチ施術のイメージ"
+            fill
+            className="block md:hidden object-cover object-center brightness-95"
+            priority
+            sizes="(max-width: 768px) 100vw"
+            quality={80} // スマホなので少し品質を下げても良い
+        />
+            
         {/* グラデーションレイヤー */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/60 to-white/80" />
       </div>

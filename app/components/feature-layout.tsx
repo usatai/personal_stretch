@@ -6,9 +6,10 @@ interface FeatureLayoutProps {
   title: string;
   description: string;
   reverse?: boolean; // trueにすると画像が右側に配置される
+  imageClassName?: string; // 画像に追加する任意のクラス
 }
 
-const FeatureLayout = ({ imageSrc, alt, title, description, reverse = false }: FeatureLayoutProps) => {
+const FeatureLayout = ({ imageSrc, alt, title, description, reverse = false, imageClassName }: FeatureLayoutProps) => {
   // reverseプロパティに応じてflex-directionを切り替える
   const flexDirection = reverse ? 'md:flex-row-reverse' : 'md:flex-row';
 
@@ -21,7 +22,7 @@ const FeatureLayout = ({ imageSrc, alt, title, description, reverse = false }: F
           alt={alt}
           width={600}
           height={400}
-          className="rounded-lg shadow-xl object-cover w-full h-auto"
+          className={`object-contain w-full h-auto ${imageClassName ? imageClassName : ''}`}
         />
       </div>
 

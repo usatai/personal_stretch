@@ -4,6 +4,7 @@ import ConcernsSection from "./components/sections/concerns-section";
 import FeatureLayout from './components/feature-layout';
 import Contact from './components/contact';
 import TrainerSection from './components/sections/trainer-section';
+import PriceSection from "./components/sections/price-section";
 
 // Sectionコンポーネントの新しいprops定義
 interface SectionProps {
@@ -79,7 +80,7 @@ export default function Home() {
       </Section>
 
       <Section id="price" subTitle="PRICE" mainTitle="料金">
-        <p className="text-center text-gray-600">（このセクションは現在準備中です）</p>
+        <PriceSection />
       </Section>
 
       <Section id="contact" subTitle="Contact" mainTitle="お問い合わせ" className="bg-slate-50">

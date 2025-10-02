@@ -5,7 +5,7 @@ import { Menu,Calendar, Mail, X  } from 'lucide-react';
 import { useState } from 'react';   
 
 const navItems = [
-  { label: '田島ストレッチの特徴', href: '#first-time' },
+  { label: 'Reborn Stretch', href: '#first-time' },
   { label: 'お悩みや目的から選ぶ', href: '#purpose' },
   { label: '出張エリア', href: '#area' },
   { label: 'トレーナー', href: '#trainer' },
@@ -37,7 +37,7 @@ const Header = () => {
                         <Image src="/logo.png" alt="ロゴ" width={40} height={40} /> 
                         */}
                         <span className="text-xl md:text-2xl font-bold text-gray-800 tracking-tight">
-                            田島ストレッチ
+                            Reborn Stretch
                         </span>
                     </Link>
                 </div>

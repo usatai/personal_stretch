@@ -1,6 +1,6 @@
 const PriceSection = () => {
     return (
-        <section aria-labelledby="pricing-title" className="w-full py-5">
+        <section aria-labelledby="pricing-title" className="w-full py-2">
             <div className="mx-auto max-w-5xl px-6">
 				{/* 初回半額の強調バナー */}
 				<div className="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-4 text-blue-800">

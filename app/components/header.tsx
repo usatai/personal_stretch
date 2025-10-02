@@ -5,7 +5,7 @@ import { Menu,Calendar, Mail, X  } from 'lucide-react';
 import { useState } from 'react';   
 
 const navItems = [
-  { label: 'Reborn Stretch', href: '#first-time' },
+  { label: 'Reborn Stretchの特徴', href: '#first-time' },
   { label: 'お悩みや目的から選ぶ', href: '#purpose' },
   { label: '出張エリア', href: '#area' },
   { label: 'トレーナー', href: '#trainer' },
@@ -62,7 +62,7 @@ const Header = () => {
                         className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md px-4 py-2 text-sm shadow-sm transition-colors"
                     >
                         <Calendar className="w-4 h-4" />
-                        おためし予約
+                        ご予約はこちら
                     </a>
                 </div>
 
@@ -87,7 +87,7 @@ const Header = () => {
                         <div className="pt-4">
                             <a href="#contact" className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md px-6 py-3 text-base shadow-sm transition-colors">
                                 <Calendar className="w-4 h-4" />
-                                おためし予約
+                                ご予約はこちら
                             </a>
                         </div>
                     </nav>

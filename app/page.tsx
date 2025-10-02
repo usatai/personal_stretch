@@ -5,6 +5,7 @@ import FeatureLayout from './components/feature-layout';
 import Contact from './components/contact';
 import TrainerSection from './components/sections/trainer-section';
 import PriceSection from "./components/sections/price-section";
+import BodyChangeSection from "./components/sections/bodychange-section";
 
 // Sectionコンポーネントの新しいprops定義
 interface SectionProps {
@@ -48,7 +49,7 @@ export default function Home() {
       <ConcernsSection />
 
       {/* 3. 新しいSectionとFeatureLayoutを使ってコンテンツを配置 */}
-      <Section id="first-time" subTitle="FEATURES" mainTitle="田島ストレッチの特徴" className="bg-white">
+      <Section id="first-time" subTitle="FEATURES" mainTitle="Reborn Stretchの特徴" className="bg-white">
         <div className="space-y-20">
           <FeatureLayout
             imageSrc="/images/pro-stretch.jpeg" 
@@ -67,16 +68,22 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section id="purpose" subTitle="SERVICES" mainTitle="お悩みや目的から選ぶ" className="bg-slate-50">
-        <p className="text-center text-gray-600">（このセクションは現在準備中です）</p>
-      </Section>
-
-      <Section id="area" subTitle="AREA" mainTitle="出張エリア">
-         <p className="text-center text-gray-600">（このセクションは現在準備中です）</p>
-      </Section>
-
       <Section id="trainer" subTitle="TRAINER" mainTitle="トレーナー" className="bg-slate-50">
         <TrainerSection />
+      </Section>
+
+      <Section id="purpose" subTitle="CHANGES" mainTitle="お体の変化">
+        <BodyChangeSection 
+            cases={[
+                { beforeSrc: "/images/before1.png", afterSrc: "/images/after1.png" },
+                { beforeSrc: "/images/before2.png", afterSrc: "/images/after2.png" },
+                { beforeSrc: "/images/before3.png", afterSrc: "/images/after3.png" },
+              ]}
+        />
+      </Section>
+
+      <Section id="area" subTitle="AREA" mainTitle="出張エリア" className="bg-slate-50">
+         <p className="text-center text-gray-600">（このセクションは現在準備中です）</p>
       </Section>
 
       <Section id="price" subTitle="PRICE" mainTitle="料金">

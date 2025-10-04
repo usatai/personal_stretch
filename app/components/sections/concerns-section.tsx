@@ -4,12 +4,12 @@ import Image from 'next/image';
 const concernsData = [
     {
       text: "肩こりや腰痛が慢性化している",
-      imageSrc: "/images/Stress-pana.svg",
+      imageSrc: "/images/back pain-amico.svg",
       alt: "肩こりに悩む人のイラスト",
     },
     {
       text: "マッサージに行ってもすぐに元に戻ってしまう",
-      imageSrc: "/images/concern-return.svg",
+      imageSrc: "/images/Stress-pana.svg",
       alt: "一時的な効果に悩む人のイラスト",
     },
     {

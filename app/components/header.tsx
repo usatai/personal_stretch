@@ -6,9 +6,9 @@ import { useState } from 'react';
 
 const navItems = [
   { label: 'Reborn Stretchの特徴', href: '#first-time' },
-  { label: 'お悩みや目的から選ぶ', href: '#purpose' },
-  { label: '出張エリア', href: '#area' },
   { label: 'トレーナー', href: '#trainer' },
+  { label: 'お客様の変化', href: '#purpose' },
+  { label: '出張エリア', href: '#area' },
   { label: '料金', href: '#price' },
 ];
 

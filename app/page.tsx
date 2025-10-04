@@ -6,6 +6,7 @@ import Contact from './components/contact';
 import TrainerSection from './components/sections/trainer-section';
 import PriceSection from "./components/sections/price-section";
 import BodyChangeSection from "./components/sections/bodychange-section";
+import AreaSection from "./components/sections/area-section";
 
 // Sectionコンポーネントの新しいprops定義
 interface SectionProps {
@@ -72,7 +73,7 @@ export default function Home() {
         <TrainerSection />
       </Section>
 
-      <Section id="purpose" subTitle="CHANGES" mainTitle="お体の変化">
+      <Section id="purpose" subTitle="CHANGES" mainTitle="お客様の変化">
         <BodyChangeSection 
             cases={[
                 { beforeSrc: "/images/before1.png", afterSrc: "/images/after1.png" },
@@ -83,7 +84,7 @@ export default function Home() {
       </Section>
 
       <Section id="area" subTitle="AREA" mainTitle="出張エリア" className="bg-slate-50">
-         <p className="text-center text-gray-600">（このセクションは現在準備中です）</p>
+        <AreaSection />
       </Section>
 
       <Section id="price" subTitle="PRICE" mainTitle="料金">

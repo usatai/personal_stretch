@@ -4,13 +4,13 @@ const TrainerSection = () => {
     return (
         <div className={`flex flex-col md:flex-row items-center gap-10 md:gap-16`}>
           {/* 画像エリア */}
-          <div className="md:w-1/2 w-full">
+          <div className="md:w-1/2 w-full flex justify-center md:justify-start">
             <Image
               src={"/images/trainer.jpg"}
               alt={"トレーナー"}
               width={350}
               height={180}
-              className={`object-contain h-auto rounded-2xl ml-5`}
+              className={`object-contain h-auto rounded-2xl md:ml-5`}
             />
           </div>
     

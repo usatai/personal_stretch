@@ -24,7 +24,7 @@ const FormField = ({ label, required, children }: { label: string, required?: bo
 // 共通の入力フィールドスタイル
 const inputStyle = "w-full p-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition";
 
-const Contact = () => {
+const ContactSection = () => {
   return (
     <div className="bg-white p-8 md:p-12 rounded-lg shadow-lg max-w-4xl mx-auto">
       <h2 className="text-2xl font-bold text-center text-gray-800 mb-8">
@@ -122,4 +122,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default ContactSection;

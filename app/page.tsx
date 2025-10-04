@@ -1,12 +1,11 @@
-import Image from "next/image";
 import HeroSection from './components/sections/hero-section';
 import ConcernsSection from "./components/sections/concerns-section";
 import FeatureLayout from './components/feature-layout';
-import Contact from './components/contact';
 import TrainerSection from './components/sections/trainer-section';
 import PriceSection from "./components/sections/price-section";
 import BodyChangeSection from "./components/sections/bodychange-section";
 import AreaSection from "./components/sections/area-section";
+import ContactSection from "./components/sections/contact-section";
 
 // Sectionコンポーネントの新しいprops定義
 interface SectionProps {
@@ -93,7 +92,7 @@ export default function Home() {
 
       <Section id="contact" subTitle="Contact" mainTitle="お問い合わせ" className="bg-slate-50">
         <div className="space-y-20">
-            <Contact />
+            <ContactSection />
         </div>
       </Section>
     </>

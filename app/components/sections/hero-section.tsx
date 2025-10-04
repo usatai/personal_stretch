@@ -1,10 +1,12 @@
+'use client';
+
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import { ArrowRight } from 'lucide-react';
 import type { FC } from 'react';
 
 // 動画・画像のパスはpropsで受け取れるよう拡張も可能（現状は動画優先で仮パス）
-const imageSrc = "/images/stretch.png";
+const imageSrc = "/images/stretchPC.png";
 const spImageSrc = "/images/stretchSmartPhone.png";
 
 const HeroSection: FC = () => {
@@ -45,7 +47,17 @@ const HeroSection: FC = () => {
           大手企業で培った技術を持つトレーナーによるパーソナル施術で<br className="hidden md:inline" />柔軟性・姿勢・疲労感を根本から改善。<br className="hidden md:inline" />
           初回体験キャンペーン実施中。今すぐご予約を！
         </p>
-        <Button className="text-lg md:text-xl px-10 py-5 shadow-lg gap-2 group" variant="primary" aria-label="予約ページへ">
+        <Button 
+          className="text-lg md:text-xl px-10 py-5 shadow-lg gap-2 group" 
+          variant="primary" 
+          aria-label="予約ページへ"
+          onClick={() => {
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+              contactSection.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+        >
           予約する
           <ArrowRight className="w-5 h-5 md:w-6 md:h-6 stroke-[1.5] group-hover:translate-x-1 transition-transform" />
         </Button>

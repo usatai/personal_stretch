@@ -55,7 +55,7 @@ const FormField = ({ label, name, error, register, required, children }: FormFie
       </label>
     </div>
     <div className="md:col-span-3">
-        {React.cloneElement(children as React.ReactElement<any>,{
+        {React.isValidElement(children) && React.cloneElement(children,{
             id: name,
             className: `${inputStyle} ${error ? errorInputStyle : ''}`,
             ...register(name, {required}),

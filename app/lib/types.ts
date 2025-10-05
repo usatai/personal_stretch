@@ -6,14 +6,6 @@ export interface ConcernItem {
   alt: string;
 }
 
-export interface FeatureItem {
-  title: string;
-  description: string;
-  imageSrc: string;
-  alt: string;
-  reverse?: boolean;
-}
-
 export interface TrainerInfo {
   name: string;
   experience: string;

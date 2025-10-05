@@ -24,7 +24,6 @@ type FormFieldProps = {
     label: string;
     name: keyof FormData; // nameをFormDataのキーに限定
     error?: FieldError;
-    register: any; // react-hook-formのregister関数
     required?: boolean;
     children: React.ReactNode;
 };
@@ -41,7 +40,7 @@ const inputStyle = "w-full p-3 bg-white border border-gray-300 rounded-md focus:
 const errorInputStyle = "border-red-500 ring-red-500";
 
 // 各フォーム行のレイアウトを担当するコンポーネント
-const FormField = ({ label, name, error, register, required, children }: FormFieldProps) => (
+const FormField = ({ label, name, error, required, children }: FormFieldProps) => (
   <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 items-start py-4 border-b border-gray-200">
     {/* 左側: ラベルと必須バッジ */}
     <div className="md:col-span-1">
@@ -55,11 +54,12 @@ const FormField = ({ label, name, error, register, required, children }: FormFie
       </label>
     </div>
     <div className="md:col-span-3">
-        {React.isValidElement(children) && React.cloneElement(children,{
+        {/* {React.isValidElement(children) && React.cloneElement(children,{
             id: name,
             className: `${inputStyle} ${error ? errorInputStyle : ''}`,
             ...register(name, {required}),
-        })}
+        })} */}
+        {children}
         {error && <p className="text-red-500 text-sm mt-1">{label}必須です。</p>}
     </div>
   </div>
@@ -103,39 +103,87 @@ const ContactSection = () => {
         </div>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
-            <FormField label="お名前" name="name" error={errors.name} register={register} required>
-            <input type="text" placeholder="例：山田 太郎" autoComplete='off'/>
+            <FormField label="お名前" name="name" error={errors.name} required>
+            <input 
+                type="text" 
+                placeholder="例：山田 太郎"
+                autoComplete='off'
+                className={`${inputStyle} ${errors.name ? errorInputStyle : ''}`}
+                {...register("name",{required: true})}
+            />
             </FormField>
 
-            <FormField label="メールアドレス" name="email" error={errors.email} register={register} required>
-            <input type="email" placeholder="例：example@mail.com" autoComplete='off'/>
+            <FormField label="メールアドレス" name="email" error={errors.email} required>
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="例：example@mail.com"
+                    autoComplete="off"
+                    className={`${inputStyle} ${errors.email ? errorInputStyle : ''}`}
+                    {...register("email", { required: true })}
+                />
             </FormField>
 
-            <FormField label="電話番号" name="tel" error={errors.tel} register={register} required>
-            <input type="tel" placeholder="例：090-1234-5678" autoComplete='off'/>
+            <FormField label="電話番号" name="tel" error={errors.tel} required>
+                <input
+                    id="tel"
+                    type="tel"
+                    placeholder="例：090-1234-5678"
+                    autoComplete="off"
+                    className={`${inputStyle} ${errors.tel ? errorInputStyle : ''}`}
+                    {...register("tel", { required: true })}
+                />
             </FormField>
 
-            <FormField label="第1希望日程" name="firstChoiceDate" error={errors.firstChoiceDate} register={register} required>
-                <input type="date" />
+            <FormField label="第1希望日程" name="firstChoiceDate" error={errors.firstChoiceDate} required>
+                <input
+                    id="firstChoiceDate"
+                    type="date"
+                    className={`${inputStyle} ${errors.firstChoiceDate ? errorInputStyle : ''}`}
+                    {...register("firstChoiceDate", { required: true })}
+                />
             </FormField>
 
-            <FormField label="第1希望時間" name="firstChoiceTime" error={errors.firstChoiceTime} register={register} required>
-                <select>
-                <option value="">ご希望の時間を選択してください</option>
-                {TIME_OPTIONS.map(time => <option key={time} value={time}>{time}</option>)}
+            <FormField label="第1希望時間" name="firstChoiceTime" error={errors.firstChoiceTime} required>
+                <select
+                    id="firstChoiceTime"
+                    className={`${inputStyle} ${errors.firstChoiceTime ? errorInputStyle : ''}`}
+                    {...register("firstChoiceTime", { required: true })}
+                >
+                    <option value="">ご希望の時間を選択してください</option>
+                    {TIME_OPTIONS.map(time => <option key={time} value={time}>{time}</option>)}
                 </select>
             </FormField>
-            <FormField label="第2希望日程" name="secondChoiceDate" register={register}>
-                <input type="date" />
+
+            <FormField label="第2希望日程" name="secondChoiceDate" error={errors.secondChoiceDate}>
+                <input
+                    id="secondChoiceDate"
+                    type="date"
+                    className={`${inputStyle} ${errors.secondChoiceDate ? errorInputStyle : ''}`}
+                    {...register("secondChoiceDate")}
+                />
             </FormField>
-            <FormField label="第2希望時間" name="secondChoiceTime" register={register}>
-                <select>
-                <option value="">ご希望の時間を選択してください</option>
-                {TIME_OPTIONS.map(time => <option key={time} value={time}>{time}</option>)}
+
+            <FormField label="第2希望時間" name="secondChoiceTime" error={errors.secondChoiceTime}>
+                <select
+                    id="secondChoiceTime"
+                    className={`${inputStyle} ${errors.secondChoiceTime ? errorInputStyle : ''}`}
+                    {...register("secondChoiceTime")}
+                >
+                    <option value="">ご希望の時間を選択してください</option>
+                    {TIME_OPTIONS.map(time => <option key={time} value={time}>{time}</option>)}
                 </select>
             </FormField>
-            <FormField label="お悩みやご質問" name="message" register={register}>
-                <textarea rows={5} placeholder="身体の具体的なお悩みや、ご質問などがあればご記入ください。" autoComplete='off'/>
+            
+            <FormField label="お悩みやご質問" name="message" error={errors.message}>
+                <textarea
+                    id="message"
+                    rows={5}
+                    placeholder="身体の具体的なお悩みや、ご質問などがあればご記入ください。"
+                    autoComplete="off"
+                    className={`${inputStyle} ${errors.message ? errorInputStyle : ''}`}
+                    {...register("message")}
+                />
             </FormField>
 
             <div className="pt-8 text-center">

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useForm, SubmitHandler, FieldError } from 'react-hook-form';
 import emailjs from '@emailjs/browser';
 

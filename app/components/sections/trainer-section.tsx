@@ -1,9 +1,4 @@
 import Image from 'next/image';
-import { TrainerInfo } from '@/app/lib/types';
-
-const trainerInfo = {
-
-}
 
 const TrainerSection = () => {
     return (

@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { MapPin, Clock, Car } from "lucide-react";
+import { ServiceArea } from "@/app/lib/types";
 
 const AreaSection = () => {
     // 大阪の主要エリアデータ
-    const osakaAreas = [
+    const osakaAreas : ServiceArea[] = [
         { name: "大阪市内", districts: ["梅田", "難波", "天王寺", "本町", "新大阪"] },
         { name: "北摂エリア", districts: ["豊中", "吹田", "茨木", "高槻", "摂津"] },
         { name: "東大阪・八尾", districts: ["東大阪", "八尾", "柏原", "藤井寺"] },

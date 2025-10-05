@@ -1,7 +1,8 @@
 import Image from 'next/image';
+import { ConcernItem } from '@/app/lib/types';
 
 //各お悩みカードのデータ
-const concernsData = [
+const concernsData : ConcernItem[] = [
     {
       text: "肩こりや腰痛が慢性化している",
       imageSrc: "/images/back pain-amico.svg",

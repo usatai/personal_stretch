@@ -22,6 +22,7 @@ const BodyChangeSection = ({
 				<div className="mb-8">
 					<h2 id="bodychange-title" className="text-2xl font-bold text-gray-800">Before / After</h2>
 					<p className="mt-2 text-gray-600">写真でわかるビフォーアフター。変化を直感的にご覧ください。</p>
+                    <p className="mt-2 text-gray-600">※ ストレッチ時間15分</p>
 				</div>
 
 				{cases.map((c, index) => (

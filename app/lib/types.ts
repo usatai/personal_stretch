@@ -17,6 +17,7 @@ export interface TrainerInfo {
 export interface ServiceArea {
   name: string;
   districts: string[];
+  isFree: boolean;
 }
 
 export interface BeforeAfterCase {

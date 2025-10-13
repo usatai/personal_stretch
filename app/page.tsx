@@ -43,6 +43,12 @@ export default function Home() {
   
     const feature2Description = `店舗に通う必要はありません。ご指定の場所にトレーナーがお伺いするため、移動の手間や時間を完全にカットできます。
   リラックスできるプライベートな空間で、最高のコンディショニングをご体験ください。`;
+
+  const feature3Description = `反動をつけずに筋肉をゆっくりいた気持ち良く伸ばし、
+  そのまま静止するストレッチ方法で1回あたり30秒程度 伸ばした状態をキープします。`;
+
+  const feature4Description = `体を動かしながら筋肉を伸ばし、関節の可動域を広げるウォーミングアップに最適なストレッチ`;
+
   return (
     <>
       <HeroSection />
@@ -58,12 +64,41 @@ export default function Home() {
             description={feature1Description}
             imageClassName="rounded-2xl"
           />
+          <div className="text-center">
+            <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
+                目的別に使い分ける<br />2種類のストレッチ
+            </h3>
+            <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
+                あなたの身体の状態や目的に合わせて、最適なストレッチを組み合わせるからこそ、最大限の効果が期待できます。
+            </p>
+            
+            {/* ストレッチのカードを横並びにする */}
+            <div className="flex flex-col md:flex-row gap-8 justify-center">
+                
+                {/* ダイナミックストレッチ */}
+                <div className="flex-1 p-6 border rounded-lg shadow-md bg-gray-50 text-left">
+                <h4 className="text-xl font-bold text-gray-800 mb-3">ダイナミックストレッチ</h4>
+                <p className="text-gray-600 leading-relaxed">
+                    {feature4Description} {/* descriptionはpropsから渡す */}
+                </p>
+                </div>
+
+                {/* スタティックストレッチ */}
+                <div className="flex-1 p-6 border rounded-lg shadow-md bg-gray-50 text-left">
+                <h4 className="text-xl font-bold text-gray-800 mb-3">スタティックストレッチ</h4>
+                <p className="text-gray-600 leading-relaxed">
+                    {feature3Description} {/* descriptionはpropsから渡す */}
+                </p>
+                </div>
+                
+            </div>
+          </div>
           <FeatureLayout
             imageSrc="/images/stretchBed.png" 
             alt="自宅でリラックスしながらストレッチを受ける様子"
             title="ご自宅で受けられるから、移動時間ゼロ"
             description={feature2Description}
-            reverse={true} 
+            reverse={true}
           />
         </div>
       </Section>

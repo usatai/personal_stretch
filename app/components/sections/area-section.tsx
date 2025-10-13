@@ -5,10 +5,10 @@ import { ServiceArea } from "@/app/lib/types";
 const AreaSection = () => {
     // 大阪の主要エリアデータ
     const osakaAreas : ServiceArea[] = [
-        { name: "大阪市内", districts: ["梅田", "難波", "天王寺", "本町", "新大阪"] },
-        { name: "北摂エリア", districts: ["豊中", "吹田", "茨木", "高槻", "摂津"] },
-        { name: "東大阪・八尾", districts: ["東大阪", "八尾", "柏原", "藤井寺"] },
-        { name: "堺・南大阪", districts: ["堺", "和泉", "岸和田", "泉佐野"] }
+        { name: "大阪市内", districts: ["梅田", "難波", "天王寺", "本町", "新大阪"], isFree: false },
+        { name: "北摂エリア", districts: ["豊中", "吹田", "茨木", "高槻", "摂津"],isFree: false },
+        { name: "東大阪・八尾", districts: ["東大阪", "八尾", "柏原", "藤井寺","大東市"],isFree: true },
+        { name: "堺・南大阪", districts: ["堺", "和泉", "岸和田", "泉佐野"],isFree: false }
     ];
 
     return (
@@ -40,6 +40,11 @@ const AreaSection = () => {
                         <div className="flex items-center gap-2 mb-4">
                             <MapPin className="w-5 h-5 text-blue-500" />
                             <h4 className="text-lg font-semibold text-gray-800">{area.name}</h4>
+                            {area.isFree && (
+                                <span className="ml-2 px-2 py-1 text-xs font-semibold text-white bg-red-500 rounded-full">
+                                無料
+                                </span>
+                            )}
                         </div>
                         <div className="space-y-2">
                             {area.districts.map((district, districtIndex) => (

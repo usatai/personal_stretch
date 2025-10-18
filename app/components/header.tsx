@@ -60,7 +60,7 @@ const Header = () => {
                     </Link>
                 </div>
                             {/* ナビゲーション（PC） */}
-                <nav className="hidden lg:flex items-center space-x-7">
+                <nav className="hidden md:flex items-center space-x-7">
                     {navItems.map((item) => (
                         <button
                             key={item.href}

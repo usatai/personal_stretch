@@ -185,7 +185,14 @@ const ContactSection = () => {
                 <button 
                     type="submit" 
                     disabled={status === 'loading'}
-                    className="w-full max-w-sm bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition-transform transform hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none"
+                    className="
+                        w-3/4 max-w-sm bg-cyan-500 hover:bg-cyan-700 active:bg-cyan-800
+                        text-white font-semibold md:text-xl 
+                        px-8 py-4 md:px-12 md:py-5
+                        rounded-full shadow-xl hover:shadow-2xl
+                        transition-all duration-300
+                        flex items-center justify-center gap-2
+                        text-center mx-auto"
                 >
                     {status === 'loading' ? '送信中...' : 'この内容で送信する'}
                 </button>

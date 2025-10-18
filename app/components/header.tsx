@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image'; 
 import { Menu,Calendar, X  } from 'lucide-react';
 import { useState } from 'react';   
 
@@ -43,30 +44,28 @@ const Header = () => {
 
     return (
         // 1. ヘッダー全体のスタイルを調整 (背景を半透明から白に変更)
-        <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-200">
+        <header className="sticky top-0 z-50 bg-gradient-to-br from-cyan-50 to-cyan-100 backdrop-blur-md border-b border-cyan-100 shadow-sm">
             {/* コンテナの最大幅を広げ、justify-betweenで要素を均等配置 */}
             <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-4 sm:px-6 lg:px-8">
                 
-                {/* ロゴ */}
+               {/* ロゴ */}
                 <div className="flex-shrink-0">
                     <Link href="/" className="flex items-center gap-2 group" aria-label="トップページへ">
-                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="18" cy="18" r="18" fill="#3B82F6" />
-                            <text x="50%" y="55%" textAnchor="middle" fill="#fff" fontSize="18" fontWeight="bold" dy=".3em">S</text>
-                        </svg>
-                        <span className="text-xl md:text-2xl font-bold text-gray-800 tracking-tight">
-                            Reborn Stretch
-                        </span>
+                        {/* 丸型ロゴ - 自作版 */}
+                        <div className="relative w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-cyan-400 to-cyan-500 flex flex-col items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
+                            <span className="text-white font-black text-[8px] md:text-[10px] leading-none tracking-tight">Reborn</span>
+                            <span className="text-white font-black text-[8px] md:text-[10px] leading-none tracking-tight">Stretch</span>
+                            <span className="text-white/90 font-medium text-[6px] md:text-[7px] leading-none mt-0.5">訪問ストレッチ</span>
+                        </div>
                     </Link>
                 </div>
-
-                {/* ナビゲーション（PC） */}
+                            {/* ナビゲーション（PC） */}
                 <nav className="hidden lg:flex items-center space-x-7">
                     {navItems.map((item) => (
                         <button
                             key={item.href}
                             onClick={() => scrollToSection(item.href)}
-                            className="text-sm font-medium text-gray-600 hover:text-blue-500 transition-colors"
+                            className="text-sm font-medium text-gray-700 hover:text-cyan-600 transition-colors"
                         >
                             {item.label}
                         </button>
@@ -77,7 +76,7 @@ const Header = () => {
                 <div className="hidden md:flex items-center gap-3">
                     <button
                         onClick={() => scrollToSection('#contact')}
-                        className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md px-4 py-2 text-sm shadow-sm transition-colors"
+                        className="flex items-center gap-2 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-md px-4 py-2 text-sm shadow-sm transition-colors"
                     >
                         <Calendar className="w-4 h-4" />
                         ご予約はこちら
@@ -103,7 +102,7 @@ const Header = () => {
                             <button 
                                 key={item.href} 
                                 onClick={() => scrollToSection(item.href)} 
-                                className="block px-4 py-3 text-gray-700 hover:bg-gray-100 w-full text-left"
+                                className="block px-4 py-3 ttext-sm font-medium text-gray-700 hover:text-cyan-600 transition-colors"
                             >
                                 {item.label}
                             </button>
@@ -111,7 +110,7 @@ const Header = () => {
                         <div className="pt-4">
                             <button 
                                 onClick={() => scrollToSection('#contact')} 
-                                className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md px-6 py-3 text-base shadow-sm transition-colors"
+                                className="flex items-center gap-2 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-md px-4 py-2 text-sm shadow-sm transition-colors"
                             >
                                 <Calendar className="w-4 h-4" />
                                 ご予約はこちら

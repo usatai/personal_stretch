@@ -6,6 +6,7 @@ import PriceSection from "./components/sections/price-section";
 import BodyChangeSection from "./components/sections/bodychange-section";
 import AreaSection from "./components/sections/area-section";
 import ContactSection from "./components/sections/contact-section";
+import { Sparkles } from 'lucide-react';
 
 // Sectionコンポーネントの新しいprops定義
 interface SectionProps {
@@ -55,8 +56,8 @@ export default function Home() {
       <ConcernsSection />
 
       {/* 3. 新しいSectionとFeatureLayoutを使ってコンテンツを配置 */}
-      <Section id="first-time" subTitle="FEATURES" mainTitle="Reborn Stretchの特徴" className="bg-white">
-        <div className="space-y-20">
+      <Section id="first-time" subTitle="FEATURES" mainTitle="Reborn Stretchの特徴" className="bg-gradient-to-br from-cyan-50 to-cyan-100 bg-fixed">
+        <div className="space-y-16 md:space-y-20">
           <FeatureLayout
             imageSrc="/images/pro-stretch.jpeg" 
             alt="トレーナーがマンツーマンで指導している様子"
@@ -76,16 +77,20 @@ export default function Home() {
             <div className="flex flex-col md:flex-row gap-8 justify-center">
                 
                 {/* ダイナミックストレッチ */}
-                <div className="flex-1 p-6 border rounded-lg shadow-md bg-gray-50 text-left">
-                <h4 className="text-xl font-bold text-gray-800 mb-3">ダイナミックストレッチ</h4>
+                <div className="flex-1 p-6 border rounded-lg shadow-md bg-cyan-50 border-cyan-100 text-left hover:shadow-lg hover:-translate-y-1 transition-transform">
+                <h4 className="flex items-center gap-2 text-xl font-bold text-gray-800 mb-3">
+                    <Sparkles className="text-cyan-500" /> ダイナミックストレッチ
+                </h4>
                 <p className="text-gray-600 leading-relaxed">
                     {feature4Description} {/* descriptionはpropsから渡す */}
                 </p>
                 </div>
 
                 {/* スタティックストレッチ */}
-                <div className="flex-1 p-6 border rounded-lg shadow-md bg-gray-50 text-left">
-                <h4 className="text-xl font-bold text-gray-800 mb-3">スタティックストレッチ</h4>
+                <div className="flex-1 p-6 border rounded-lg shadow-md bg-cyan-50 border-cyan-100 text-left hover:shadow-lg hover:-translate-y-1 transition-transform">
+                <h4 className="flex items-center gap-2 text-xl font-bold text-gray-800 mb-3">
+                    <Sparkles className="text-cyan-500" /> スタティックストレッチ
+                </h4>
                 <p className="text-gray-600 leading-relaxed">
                     {feature3Description} {/* descriptionはpropsから渡す */}
                 </p>
@@ -95,7 +100,7 @@ export default function Home() {
           </div>
           <FeatureLayout
             imageSrc="/images/stretchBed.png" 
-            alt="自宅でリラックスしながらストレッチを受ける様子"
+            alt="ストレッチベットはこちらで用意することを示す"
             title="ご自宅で受けられるから、移動時間ゼロ"
             description={feature2Description}
             reverse={true}
@@ -103,11 +108,11 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section id="trainer" subTitle="TRAINER" mainTitle="トレーナー" className="bg-slate-50">
+      <Section id="trainer" subTitle="TRAINER" mainTitle="トレーナー" className="bg-gradient-to-br from-cyan-100 to-cyan-150 bg-fixed">
         <TrainerSection />
       </Section>
 
-      <Section id="purpose" subTitle="CHANGES" mainTitle="お客様の変化">
+      <Section id="purpose" subTitle="CHANGES" mainTitle="お客様の変化" className="bg-gradient-to-br from-cyan-50 to-cyan-100 bg-fixed">
         <BodyChangeSection 
             cases={[
                 { beforeSrc: "/images/before1.png", afterSrc: "/images/after1.png" },
@@ -117,15 +122,15 @@ export default function Home() {
         />
       </Section>
 
-      <Section id="area" subTitle="AREA" mainTitle="出張エリア" className="bg-slate-50">
+      <Section id="area" subTitle="AREA" mainTitle="出張エリア" className="bg-gradient-to-br from-cyan-100 to-cyan-150 bg-fixed">
         <AreaSection />
       </Section>
 
-      <Section id="price" subTitle="PRICE" mainTitle="料金">
+      <Section id="price" subTitle="PRICE" mainTitle="料金" className="bg-gradient-to-br from-cyan-50 to-cyan-100 bg-fixed">
         <PriceSection />
       </Section>
 
-      <Section id="contact" subTitle="Contact" mainTitle="お問い合わせ" className="bg-slate-50">
+      <Section id="contact" subTitle="Contact" mainTitle="お問い合わせ" className="bg-gradient-to-br from-cyan-100 to-cyan-150 bg-fixed">
         <div className="space-y-20">
             <ContactSection />
         </div>

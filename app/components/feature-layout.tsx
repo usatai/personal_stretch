@@ -17,11 +17,11 @@ const FeatureLayout = ({ imageSrc, alt, title, description, reverse = false, ima
     <div className={`flex flex-col ${flexDirection} items-center gap-10 md:gap-16`}>
       {/* 画像エリア */}
       <div className="md:w-1/2 w-full">
-        <Image
-          src={imageSrc}
-          alt={alt}
-          width={600}
-          height={400}
+      <Image
+        src={imageSrc}
+        alt={alt}
+        width={600}
+        height={400}
           className={`object-contain w-full h-auto ${imageClassName ? imageClassName : ''}`}
         />
       </div>

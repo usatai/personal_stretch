@@ -41,7 +41,16 @@ const AreaSection = () => {
                             <MapPin className="w-5 h-5 text-blue-500" />
                             <h4 className="text-lg font-semibold text-gray-800">{area.name}</h4>
                             {area.isFree && (
-                                <span className="ml-2 px-2 py-1 text-xs font-semibold text-white bg-red-500 rounded-full">
+                                <span className="ml-2
+                                    px-2 py-[2px]
+                                    text-[10px]       
+                                    sm:px-2.5 sm:py-1 
+                                    sm:text-xs     
+                                    font-semibold
+                                    text-white
+                                    bg-red-500
+                                    rounded-full
+                                    whitespace-nowrap">
                                 無料
                                 </span>
                             )}
@@ -87,11 +96,8 @@ const AreaSection = () => {
             {/* CTA */}
             <div className="text-center">
                 <p className="text-gray-600 mb-4">
-                    ご希望のエリアが含まれているかご確認ください
+                    ご希望のエリアが含まれているかご確認ください。
                 </p>
-                <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-8 rounded-lg transition-colors">
-                    エリア確認・お問い合わせ
-                </button>
             </div>
         </div>
     );

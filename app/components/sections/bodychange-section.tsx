@@ -20,9 +20,9 @@ const BodyChangeSection = ({
 		<section aria-labelledby="bodychange-title" className="w-full py-2">
 			<div className="mx-auto max-w-5xl px-6">
 				<div className="mb-8">
-					<h2 id="bodychange-title" className="text-2xl font-bold text-gray-800">Before / After</h2>
-					<p className="mt-2 text-gray-600">写真でわかるビフォーアフター。変化を直感的にご覧ください。</p>
-                    <p className="mt-2 text-gray-600">※ ストレッチ時間15分</p>
+					<h2 id="bodychange-title" className="text-2xl font-bold text-gray-500">Before / After</h2>
+					<p className="mt-2 text-gray-500">写真でわかるビフォーアフター。変化を直感的にご覧ください。</p>
+                    <p className="mt-2 text-gray-500">※ ストレッチ時間15分</p>
 				</div>
 
 				{cases.map((c, index) => (

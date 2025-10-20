@@ -26,7 +26,7 @@ const Section = ({ id, subTitle, mainTitle, children, className = "" }: SectionP
           <p className="text-base font-semibold text-blue-600 tracking-wider uppercase">
             {subTitle}
           </p>
-          <h2 className="mt-2 text-3xl md:text-4xl font-bold tracking-tight text-gray-900">
+          <h2 className="mt-2 text-3xl md:text-4xl font-bold tracking-tight text-gray-600">
             {mainTitle}
           </h2>
         </div>
@@ -67,7 +67,7 @@ export default function Home() {
             imageClassName="rounded-2xl"
           />
           <div className="text-center">
-            <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
+            <h3 className="text-xl md:text-2xl font-bold text-gray-600 mb-2">
                 2種類のストレッチ
             </h3>
             <p className="text-gray-600 mb-12 max-w-2xl mx-auto">

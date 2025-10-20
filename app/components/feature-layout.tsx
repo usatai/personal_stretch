@@ -28,7 +28,7 @@ const FeatureLayout = ({ imageSrc, alt, title, description, reverse = false, ima
 
       {/* テキストエリア */}
       <div className="md:w-1/2 w-full text-left">
-        <h3 className="text-2xl font-bold text-gray-800 mb-4">{title}</h3>
+        <h3 className="text-2xl font-bold text-gray-600 mb-4">{title}</h3>
         <p className="text-gray-600 leading-relaxed whitespace-pre-line">
           {description}
         </p>

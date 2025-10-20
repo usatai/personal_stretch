@@ -7,6 +7,7 @@ import BodyChangeSection from "./components/sections/bodychange-section";
 import AreaSection from "./components/sections/area-section";
 import ContactSection from "./components/sections/contact-section";
 import { Sparkles } from 'lucide-react';
+import FooterSection from './components/sections/footer-section';
 
 // Sectionコンポーネントの新しいprops定義
 interface SectionProps {
@@ -67,7 +68,7 @@ export default function Home() {
           />
           <div className="text-center">
             <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
-                目的別に使い分ける<br />2種類のストレッチ
+                2種類のストレッチ
             </h3>
             <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
                 あなたの身体の状態や目的に合わせて、最適なストレッチを組み合わせるからこそ、最大限の効果が期待できます。
@@ -101,7 +102,7 @@ export default function Home() {
           <FeatureLayout
             imageSrc="/images/stretchBed.png" 
             alt="ストレッチベットはこちらで用意することを示す"
-            title="ご自宅で受けられるから、移動時間ゼロ"
+            title="移動時間ゼロ"
             description={feature2Description}
             reverse={true}
           />
@@ -135,6 +136,7 @@ export default function Home() {
             <ContactSection />
         </div>
       </Section>
+      <FooterSection />
     </>
   );
 }

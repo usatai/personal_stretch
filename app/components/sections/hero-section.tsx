@@ -1,8 +1,6 @@
 'use client';
 
-import Image from 'next/image';
-import { Button } from '../ui/button';
-import { ArrowRight, Home, Sparkles, Zap  } from 'lucide-react';
+import { ArrowRight, Home } from 'lucide-react';
 import type { FC } from 'react';
 
 // 動画・画像のパスはpropsで受け取れるよう拡張も可能（現状は動画優先で仮パス）

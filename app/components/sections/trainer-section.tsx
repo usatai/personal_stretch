@@ -23,19 +23,19 @@ const TrainerSection = () => {
     
           {/* テキストエリア */}
           <div className="md:w-1/2 w-full text-left">
-            <p className='font-bold'>名前</p>
-            <h3 className="text-2xl font-bold text-gray-800 mb-4 pt-5">
+            <p className='font-bold text-gray-500'>名前</p>
+            <h3 className="text-2xl font-bold text-gray-500 mb-4 pt-5">
                 <ruby>
                     田島<rt>たしま</rt>
                     樹騎邪<rt>じゅきや</rt>
                 </ruby>
             </h3>
-            <div className="text-gray-600 leading-relaxed whitespace-pre-line pt-5">
+            <div className="text-gray-500 leading-relaxed whitespace-pre-line pt-5">
               {trainerData.map((data,index) => (
                 <div key={index}>
                     {Object.entries(data).map(([key, value]) => (
                     <div key={key} className="mb-4"> {/* 各項目ごとにもスペースを */}
-                      <p className="font-bold text-gray-800">{key}</p>
+                      <p className="font-bold text-gray-500">{key}</p>
                       <p className="mt-1 whitespace-pre-line">{value}</p>
                     </div>
                   ))}

@@ -11,7 +11,15 @@ const HeroSection: FC = () => {
     const handleReservation = () => {
       const contactSection = document.getElementById('contact');
       if (contactSection) {
-        contactSection.scrollIntoView({ behavior: 'smooth' });
+        // 固定ヘッダーの高さを考慮したオフセット計算
+        const headerHeight = 120; // h-20 = 80px
+        const elementPosition = contactSection.getBoundingClientRect().top + window.pageYOffset;
+        const offsetPosition = elementPosition - headerHeight;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
       }
     };
   

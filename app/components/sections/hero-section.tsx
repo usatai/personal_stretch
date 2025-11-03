@@ -12,7 +12,7 @@ const HeroSection: FC = () => {
       const contactSection = document.getElementById('contact');
       if (contactSection) {
         // 固定ヘッダーの高さを考慮したオフセット計算
-        const headerHeight = 120; // h-20 = 80px
+        const headerHeight =200; // h-20 = 80px
         const elementPosition = contactSection.getBoundingClientRect().top + window.pageYOffset;
         const offsetPosition = elementPosition - headerHeight;
 

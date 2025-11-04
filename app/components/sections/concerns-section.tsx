@@ -56,6 +56,7 @@ const concernsData : ConcernItem[] = [
                     height={150}
                     style={{ objectFit: 'contain' }}
                     className="drop-shadow-md"
+                    priority={true}
                   />
                 </div>
                 {/* カード内のテキスト */}

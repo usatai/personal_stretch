@@ -22,7 +22,8 @@ const FeatureLayout = ({ imageSrc, alt, title, description, reverse = false, ima
         alt={alt}
         width={600}
         height={400}
-          className={`object-contain w-full h-auto ${imageClassName ? imageClassName : ''}`}
+        className={`object-contain w-full h-auto ${imageClassName ? imageClassName : ''}`}
+        priority={true}
         />
       </div>
 

@@ -18,6 +18,7 @@ const TrainerSection = () => {
               width={350}
               height={180}
               className={`object-contain h-auto rounded-2xl md:ml-5`}
+              priority={true}
             />
           </div>
     

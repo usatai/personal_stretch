@@ -30,6 +30,7 @@ const AreaSection = () => {
                     width={350}
                     height={180}
                     className={`object-contain h-auto mix-blend-multiply`}
+                    priority={true}
                 />
             </div>
 

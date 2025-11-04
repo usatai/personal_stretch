@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { Menu,Calendar, X  } from 'lucide-react';
 import { useState } from 'react';   
-import { scrollToSection } from '../lib/scroll';
 
 const navItems = [
   { label: 'Reborn Stretchの特徴', href: '#first-time' },
@@ -20,19 +19,27 @@ const Header = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
-    const handleNavClick = async (sectionId: string) => {
-        // メニューを先に閉じる
+    const scrollToSection = (href: string) => {
+        const element = document.querySelector(href);
+        if (element) {
+            // ハンバーガーメニューが開いている時のみオフセットを適用
+            if (isMenuOpen) {
+                const headerHeight = 450; // ハンバーガーメニューが開いている時の高さ
+                const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+                const offsetPosition = elementPosition - headerHeight;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            } else {
+                // 通常時はオフセットなしでスクロール
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        // モバイルメニューを閉じる
         setIsMenuOpen(false);
-        
-        // メニューが閉じるのを少し待つ
-        await new Promise(resolve => setTimeout(resolve, 100));
-        
-        // スクロール実行
-        scrollToSection(sectionId, {
-          offset: 20,
-          waitForImages: false // ヘッダーからは画像待機不要
-        });
-      };
+    };
 
     return (
         // 1. ヘッダー全体のスタイルを調整 (背景を半透明から白に変更)

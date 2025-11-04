@@ -36,7 +36,7 @@ const BodyChangeSection = ({
 									width={640}
 									height={400}
 									className="h-auto w-full object-cover"
-									priority={false}
+									priority={true}
 								/>
 							</div>
 						</article>
@@ -50,7 +50,7 @@ const BodyChangeSection = ({
 									width={640}
 									height={400}
 									className="h-auto w-full object-cover"
-									priority={false}
+									priority={true}
 								/>
 							</div>
 						</article>

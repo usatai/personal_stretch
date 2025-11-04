@@ -1,24 +1,26 @@
 'use client';
 
 import { ArrowRight, Home } from 'lucide-react';
-import { useState, type FC } from 'react';
-import { scrollToSection } from '@/app/lib/scroll';
+import type { FC } from 'react';
 
 // 動画・画像のパスはpropsで受け取れるよう拡張も可能（現状は動画優先で仮パス）
 const imageSrc = "/images/stretchPC.png";
 const spImageSrc = "/images/stretchSmartPhone.png";
 
 const HeroSection: FC = () => {
-    const [isScrolling, setIsScrolling] = useState(false);
-
     const handleReservation = () => {
-      scrollToSection('contact', {
-        offset: 20,
-        waitForImages: true, // 初回表示対策
-        onStart: () => setIsScrolling(true),
-        onComplete: () => setIsScrolling(false)
-    });
-    
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        // 固定ヘッダーの高さを考慮したオフセット計算
+        const headerHeight = 120; // h-20 = 80px
+        const elementPosition = contactSection.getBoundingClientRect().top + window.pageYOffset;
+        const offsetPosition = elementPosition - headerHeight;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
     };
   
     return (

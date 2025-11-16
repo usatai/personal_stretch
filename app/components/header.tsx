@@ -58,7 +58,7 @@ const Header = () => {
                         </div>
                     </Link>
                 </div>
-                            {/* ナビゲーション（PC） */}
+                {/* ナビゲーション（PC） */}
                 <nav className="hidden md:flex items-center space-x-7">
                     {navItems.map((item) => (
                         <button

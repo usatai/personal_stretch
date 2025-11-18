@@ -9,7 +9,7 @@ const navItems = [
   { label: 'トレーナー', href: '#trainer' },
   { label: 'お客様の変化', href: '#purpose' },
   { label: '出張エリア', href: '#area' },
-  { label: '料金', href: '#price' },
+  { label: '料金・コース', href: '#price' },
 ];
 
 const Header = () => {

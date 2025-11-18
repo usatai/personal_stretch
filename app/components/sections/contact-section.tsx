@@ -11,6 +11,7 @@ type FormData = {
     tel: string;
     firstChoiceDate: string;
     firstChoiceTime: string;
+    choiceStretch: string;
     secondChoiceDate?: string;
     secondChoiceTime?: string;
     message?: string;
@@ -34,8 +35,12 @@ const TIME_OPTIONS = [
     "16:00", "17:00", "18:00", "19:00", "20:00"
 ];
 
+const STRETCH_PLAN = [
+    "40分コース","60分コース", "80分コース"
+];
+
 // 共通の入力フィールドスタイル
-const inputStyle = "w-full p-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition";
+const inputStyle = "md:w-120 md:ml-10 w-full p-3 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition";
 // エラー時のフィールドスタイル
 const errorInputStyle = "border-red-500 ring-red-500";
 
@@ -44,7 +49,7 @@ const FormField = ({ label, name, error, required, children }: FormFieldProps) =
   <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4 items-start py-4 border-b border-gray-200">
     {/* 左側: ラベルと必須バッジ */}
     <div className="md:col-span-1">
-      <label htmlFor={name} className="font-bold text-gray-700 flex items-center">
+      <label htmlFor={name} className="font-bold text-gray-700 flex items-center whitespace-nowrap">
         <span>{label}</span>
         {required ? (
           <span className="ml-2 text-xs font-semibold bg-red-500 text-white px-2 py-0.5 rounded-full">必須</span>
@@ -147,6 +152,17 @@ const ContactSection = () => {
                 >
                     <option value="">ご希望の時間を選択してください</option>
                     {TIME_OPTIONS.map(time => <option key={time} value={time}>{time}</option>)}
+                </select>
+            </FormField>
+
+            <FormField label="希望のストレッチコース" name="choiceStretch" error={errors.choiceStretch} required>
+                <select
+                    id="choiceStretch"
+                    className={`${inputStyle} ${errors.choiceStretch ? errorInputStyle : ''}`}
+                    {...register("choiceStretch", { required: true })}
+                >
+                    <option value="">ご希望のストレッチのコースを選択してください</option>
+                    {STRETCH_PLAN.map(plan => <option key={plan} value={plan}>{plan}</option>)}
                 </select>
             </FormField>
 

@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, SubmitHandler, FieldError } from 'react-hook-form';
 import emailjs from '@emailjs/browser';
+import { UseFormRegister } from 'react-hook-form';
+
 
 type FormData = {
     name: string;
@@ -58,7 +60,7 @@ const validateDate = (value: string): boolean => {
 };
 
 // ハニーポット(ボット対策)
-const HoneyPot = ({ register }: { register: any }) => (
+const HoneyPot = ({ register }: { register: UseFormRegister<FormData & { website?: string }> }) => (
     <div style={{ position: 'absolute', left: '-9999px' }} aria-hidden="true">
         <input type="text" {...register('website')} tabIndex={-1} autoComplete="off" />
     </div>

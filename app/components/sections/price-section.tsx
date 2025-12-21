@@ -14,7 +14,7 @@ const PriceSection = () => {
             <div className="mx-auto max-w-5xl px-6">
 				{/* 初回半額の強調バナー */}
 				<div className="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-4 text-blue-800">
-					<p className="text-center text-sm md:text-base"><span className="font-bold">初回ご来店は全コース<span className="text-blue-600">50%OFF</span></span> — 当日その場で割引が適用されます。</p>
+					<p className="text-center text-sm md:text-base"><span className="font-bold">初回ストレッチは全コース<span className="text-blue-600">50%OFF</span></span> — 当日その場で割引が適用されます。</p>
 				</div>
 
                 <div className="grid gap-6 md:grid-cols-3">

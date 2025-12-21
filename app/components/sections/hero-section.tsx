@@ -61,10 +61,10 @@ const HeroSection: FC = () => {
             </div>
           </div>
           
-          <h1 className="text-2xl md:text-6xl font-bold text-gray-800 mb-8 drop-shadow-xl leading-tight text-left pt-3 pr-10">
+          <h1 className="text-2xl md:text-5xl font-bold text-gray-800 mb-8 drop-shadow-xl leading-tight text-left pt-3 pr-10">
             体の芯から<br /><span className="text-cyan-600">本物のストレッチ体験</span>を。
           </h1>
-          <p className="text-sm md:text-2xl text-gray-700 mb-10 leading-relaxed font-medium text-left md:text-left text-center">
+          <p className="text-sm md:text-xl text-gray-700 mb-10 leading-relaxed font-medium text-left md:text-left text-center">
             大手企業で培った技術を持つトレーナーによるパーソナル施術で<br className="hidden md:inline" />柔軟性・姿勢・疲労感を根本から改善。<br />
             初回体験キャンペーン実施中。今すぐご予約を!
           </p>

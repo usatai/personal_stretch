@@ -62,7 +62,7 @@ export default function Home() {
           <FeatureLayout
             imageSrc="/images/pro-stretch.jpeg" 
             alt="トレーナーがマンツーマンで指導している様子"
-            title="プロのトレーナーによる完全マンツーマン指導"
+            title="『プロのトレーナーによる完全マンツーマン指導』"
             description={feature1Description}
             imageClassName="rounded-2xl"
           />
@@ -71,7 +71,7 @@ export default function Home() {
                 2種類のストレッチ
             </h3>
             <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
-                あなたの身体の状態や目的に合わせて、最適なストレッチを組み合わせるからこそ、最大限の効果が期待できます。
+                あなたの身体の状態や目的に合わせて<br />最適なストレッチを組み合わせるからこそ<br />最大限の効果が期待できます。
             </p>
             
             {/* ストレッチのカードを横並びにする */}
@@ -102,7 +102,7 @@ export default function Home() {
           <FeatureLayout
             imageSrc="/images/stretchBed.png" 
             alt="ストレッチベットはこちらで用意することを示す"
-            title="移動時間ゼロ"
+            title="『移動時間ゼロ』"
             description={feature2Description}
             reverse={true}
           />

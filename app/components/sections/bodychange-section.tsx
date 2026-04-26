@@ -1,67 +1,81 @@
 import Image from "next/image";
+import { ArrowRight, ArrowDown } from "lucide-react";
 
 type BodyChangeCase = {
-	beforeSrc: string;
-	afterSrc: string;
-	beforeAlt?: string;
-	afterAlt?: string;
+  beforeSrc: string;
+  afterSrc: string;
+  beforeAlt?: string;
+  afterAlt?: string;
 };
 
 type BodyChangeSectionProps = {
-	cases?: BodyChangeCase[];
+  cases?: BodyChangeCase[];
 };
 
-const BodyChangeSection = ({
-	cases = [
-		
-	],
-}: BodyChangeSectionProps) => {
-	return (
-		<section aria-labelledby="bodychange-title" className="w-full py-2">
-			<div className="mx-auto max-w-5xl px-6">
-				<div className="mb-8">
-					<h2 id="bodychange-title" className="text-2xl font-bold text-gray-500">Before / After</h2>
-					<p className="mt-2 text-gray-500">写真でわかるビフォーアフター。変化を直感的にご覧ください。</p>
-                    <p className="mt-2 text-gray-500">※ ストレッチ時間15分</p>
-				</div>
+const BodyChangeSection = ({ cases = [] }: BodyChangeSectionProps) => (
+  <section aria-labelledby="bodychange-title" className="w-full">
+    <div className="mb-8 flex flex-col sm:flex-row sm:items-end gap-2">
+      <div>
+        <h2 id="bodychange-title" className="heading-jp text-2xl font-bold text-slate-800">
+          Before / After
+        </h2>
+        <p className="mt-1.5 text-slate-500 text-sm">写真でわかるビフォーアフター。変化を直感的にご覧ください。</p>
+      </div>
+      <span className="sm:ml-auto text-xs text-slate-400 sm:pb-0.5">※ ストレッチ時間 15分</span>
+    </div>
 
-				{cases.map((c, index) => (
-					<div key={index} className="mb-8 grid gap-6 md:grid-cols-2">
-						<article className="relative rounded-xl border border-gray-200 bg-white p-4 shadow-md">
-							<span className="absolute left-5 top-5 inline-flex items-center rounded-full bg-gray-800/90 px-3 py-1 text-xs font-semibold text-white">Before</span>
-							<div className="overflow-hidden rounded-lg">
-								<Image
-									src={c.beforeSrc}
-									alt={c.beforeAlt ?? `施術前の状態（Before ${index + 1}）`}
-									width={640}
-									height={400}
-									className="h-auto w-full object-cover"
-									priority={true}
-								/>
-							</div>
-						</article>
+    <div className="space-y-8">
+      {cases.map((c, index) => (
+        <div key={index} className="grid gap-3 md:gap-5 md:grid-cols-[1fr_auto_1fr] items-center">
+          {/* Before */}
+          <article className="relative rounded-2xl overflow-hidden card-premium">
+            <div className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 bg-slate-800/90 text-white text-[11px] font-bold px-3 py-1 rounded-full backdrop-blur-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+              Before
+            </div>
+            <Image
+              src={c.beforeSrc}
+              alt={c.beforeAlt ?? `施術前（Before ${index + 1}）`}
+              width={640}
+              height={400}
+              className="w-full h-auto object-cover"
+              priority={true}
+            />
+          </article>
 
-						<article className="relative rounded-xl border border-gray-200 bg-white p-4 shadow-md">
-							<span className="absolute left-5 top-5 inline-flex items-center rounded-full bg-blue-500 px-3 py-1 text-xs font-semibold text-white">After</span>
-							<div className="overflow-hidden rounded-lg">
-								<Image
-									src={c.afterSrc}
-									alt={c.afterAlt ?? `施術後の状態（After ${index + 1}）`}
-									width={640}
-									height={400}
-									className="h-auto w-full object-cover"
-									priority={true}
-								/>
-							</div>
-						</article>
+          {/* Arrow: SP = 下向き / PC = 右向き */}
+          <div className="flex justify-center items-center">
+            <div className="w-10 h-10 rounded-full bg-linear-to-br from-cyan-400 to-cyan-600 flex items-center justify-center shadow-cyan shrink-0">
+              {/* SP: 縦矢印 */}
+              <ArrowDown className="w-5 h-5 text-white stroke-2 md:hidden" />
+              {/* PC: 横矢印 */}
+              <ArrowRight className="w-5 h-5 text-white stroke-2 hidden md:block" />
+            </div>
+          </div>
 
-					</div>
-				))}
+          {/* After */}
+          <article className="relative rounded-2xl overflow-hidden card-premium ring-1 ring-cyan-200">
+            <div className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 bg-cyan-600/90 text-white text-[11px] font-bold px-3 py-1 rounded-full backdrop-blur-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-200" />
+              After
+            </div>
+            <Image
+              src={c.afterSrc}
+              alt={c.afterAlt ?? `施術後（After ${index + 1}）`}
+              width={640}
+              height={400}
+              className="w-full h-auto object-cover"
+              priority={true}
+            />
+          </article>
+        </div>
+      ))}
+    </div>
 
-				<p className="mt-6 text-center text-sm text-gray-600">※ 写真はイメージです。効果には個人差があります。</p>
-			</div>
-		</section>
-	);
-}
+    <p className="mt-8 text-center text-xs text-slate-400">
+      ※ 写真はイメージです。効果には個人差があります。
+    </p>
+  </section>
+);
 
 export default BodyChangeSection;

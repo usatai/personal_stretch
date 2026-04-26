@@ -1,8 +1,7 @@
 "use client";
 
-import Link from 'next/link';
-import { Menu,Calendar, X  } from 'lucide-react';
-import { useState } from 'react';   
+import { Menu, Calendar, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const navItems = [
   { label: 'Reborn Stretchの特徴', href: '#first-time' },
@@ -13,113 +12,115 @@ const navItems = [
 ];
 
 const Header = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-    const scrollToSection = (href: string) => {
-        const element = document.querySelector(href);
-        if (element) {
-            // ハンバーガーメニューが開いている時のみオフセットを適用
-            if (isMenuOpen) {
-                const headerHeight = 450; // ハンバーガーメニューが開いている時の高さ
-                const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-                const offsetPosition = elementPosition - headerHeight;
+  const scrollToSection = (href: string) => {
+    const element = document.querySelector(href);
+    if (element) {
+      if (isMenuOpen) {
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({ top: elementPosition - 450, behavior: 'smooth' });
+      } else {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    setIsMenuOpen(false);
+  };
 
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-            } else {
-                // 通常時はオフセットなしでスクロール
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-        // モバイルメニューを閉じる
-        setIsMenuOpen(false);
-    };
+  return (
+    <header
+      className={`sticky top-0 z-50 transition-all duration-400 ${
+        scrolled
+          ? 'bg-white/92 backdrop-blur-xl shadow-[0_1px_24px_rgba(6,182,212,0.10)] border-b border-cyan-100/70'
+          : 'bg-white/60 backdrop-blur-sm border-b border-cyan-100/30'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto flex items-center justify-between h-17 md:h-20 px-4 sm:px-6 lg:px-8">
 
-    return (
-        // 1. ヘッダー全体のスタイルを調整 (背景を半透明から白に変更)
-        <header className="sticky top-0 z-50 bg-gradient-to-br from-cyan-50 to-cyan-100 backdrop-blur-md border-b border-cyan-100 shadow-sm">
-            {/* コンテナの最大幅を広げ、justify-betweenで要素を均等配置 */}
-            <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-4 sm:px-6 lg:px-8">
-                
-               {/* ロゴ */}
-                <div className="flex-shrink-0">
-                    <Link href="/" className="flex items-center gap-2 group" aria-label="トップページへ">
-                        {/* 丸型ロゴ - 自作版 */}
-                        <div className="relative w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-cyan-400 to-cyan-500 flex flex-col items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
-                            <span className="text-white font-black text-[8px] md:text-[10px] leading-none tracking-tight">Reborn</span>
-                            <span className="text-white font-black text-[8px] md:text-[10px] leading-none tracking-tight">Stretch</span>
-                            <span className="text-white/90 font-medium text-[6px] md:text-[7px] leading-none mt-0.5">訪問ストレッチ</span>
-                        </div>
-                    </Link>
-                </div>
-                {/* ナビゲーション（PC） */}
-                <nav className="hidden md:flex items-center space-x-7">
-                    {navItems.map((item) => (
-                        <button
-                            key={item.href}
-                            onClick={() => scrollToSection(item.href)}
-                            className="text-sm font-medium text-gray-700 hover:text-cyan-600 transition-colors"
-                        >
-                            {item.label}
-                        </button>
-                    ))}
-                </nav>
+        {/* ロゴ */}
+        <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-3 group" aria-label="トップへ戻る">
+          <div className="relative w-11 h-11 md:w-12 md:h-12 rounded-full bg-linear-to-br from-cyan-400 to-cyan-600 flex flex-col items-center justify-center shadow-[0_4px_14px_rgba(6,182,212,0.40)] group-hover:shadow-[0_6px_20px_rgba(6,182,212,0.55)] transition-all duration-300 group-hover:scale-105 shrink-0">
+            <span className="text-white font-black text-[8px] leading-none tracking-tight">Reborn</span>
+            <span className="text-white font-black text-[8px] leading-none tracking-tight">Stretch</span>
+            <span className="text-white/75 font-medium text-[6px] leading-none mt-0.5">訪問ストレッチ</span>
+          </div>
+          <div className="hidden sm:flex flex-col leading-none gap-0.5">
+            <span className="text-[11px] font-black text-cyan-700 tracking-[0.18em] uppercase">Reborn</span>
+            <span className="text-[11px] font-black text-cyan-500 tracking-[0.18em] uppercase">Stretch</span>
+          </div>
+        </button>
 
-                {/* CTAボタン（PC） */}
-                <div className="hidden md:flex items-center gap-3">
-                    <button
-                        onClick={() => scrollToSection('#contact')}
-                        className="flex items-center gap-2 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-md px-4 py-2 text-sm shadow-sm transition-colors"
-                    >
-                        <Calendar className="w-4 h-4" />
-                        ご予約はこちら
-                    </button>
-                </div>
+        {/* ナビゲーション（PC） */}
+        <nav className="hidden md:flex items-center gap-5 lg:gap-7">
+          {navItems.map((item) => (
+            <button
+              key={item.href}
+              onClick={() => scrollToSection(item.href)}
+              className="relative text-[13px] font-medium text-slate-600 hover:text-cyan-600 transition-colors duration-200 group py-1 whitespace-nowrap"
+            >
+              {item.label}
+              <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-linear-to-r from-cyan-400 to-cyan-600 rounded-full transition-all duration-300 group-hover:w-full" />
+            </button>
+          ))}
+        </nav>
 
-                {/* ハンバーガーメニュー（SP） */}
-                <div className="md:hidden">
-                    <button 
-                        className="p-2 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400" 
-                        aria-label="メニューを開く"
-                        onClick={toggleMenu}
-                    >
-                        {isMenuOpen ? <X className="w-7 h-7 text-gray-700" /> : <Menu className="w-7 h-7 text-gray-700" />}
-                    </button>
-                </div>
+        {/* CTA（PC） */}
+        <div className="hidden md:flex items-center">
+          <button
+            onClick={() => scrollToSection('#contact')}
+            className="btn-cyan flex items-center gap-2 text-sm px-5 py-2.5 rounded-full"
+          >
+            <Calendar className="w-3.5 h-3.5" />
+            ご予約はこちら
+          </button>
+        </div>
+
+        {/* ハンバーガー（SP） */}
+        <button
+          className="md:hidden p-2 rounded-lg hover:bg-cyan-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+          aria-label={isMenuOpen ? 'メニューを閉じる' : 'メニューを開く'}
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen
+            ? <X className="w-5 h-5 text-slate-700" />
+            : <Menu className="w-5 h-5 text-slate-700" />}
+        </button>
+      </div>
+
+      {/* モバイルメニュー */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-white/96 backdrop-blur-xl border-t border-cyan-100/50 shadow-lg">
+          <nav className="flex flex-col items-center gap-1 py-5 px-4">
+            {navItems.map((item) => (
+              <button
+                key={item.href}
+                onClick={() => scrollToSection(item.href)}
+                className="w-full text-center px-4 py-2.5 text-sm font-medium text-slate-600 hover:text-cyan-600 hover:bg-cyan-50/70 rounded-lg transition-all duration-200"
+              >
+                {item.label}
+              </button>
+            ))}
+            <div className="pt-3 w-full flex justify-center">
+              <button
+                onClick={() => scrollToSection('#contact')}
+                className="btn-cyan flex items-center gap-2 text-sm px-7 py-3 rounded-full"
+              >
+                <Calendar className="w-4 h-4" />
+                ご予約はこちら
+              </button>
             </div>
-
-            {isMenuOpen && (
-                <div className="md:hidden bg-white border-t border-gray-200">
-                    <nav className="flex flex-col items-center space-y-4 py-6">
-                        {navItems.map((item) => (
-                            <button 
-                                key={item.href} 
-                                onClick={() => scrollToSection(item.href)} 
-                                className="block px-4 py-3 ttext-sm font-medium text-gray-700 hover:text-cyan-600 transition-colors"
-                            >
-                                {item.label}
-                            </button>
-                        ))}
-                        <div className="pt-4">
-                            <button 
-                                onClick={() => scrollToSection('#contact')} 
-                                className="flex items-center gap-2 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-md px-4 py-2 text-sm shadow-sm transition-colors"
-                            >
-                                <Calendar className="w-4 h-4" />
-                                ご予約はこちら
-                            </button>
-                        </div>
-                    </nav>
-                </div>
-            )}
-        </header>
-    );
+          </nav>
+        </div>
+      )}
+    </header>
+  );
 };
 
 export default Header;

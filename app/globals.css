@@ -2,7 +2,10 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0f172a;
+  --cyan-primary: #06b6d4;
+  --cyan-deep:    #0e7490;
+  --cyan-mid:     #0891b2;
 }
 
 @theme inline {
@@ -12,15 +15,221 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ============================================
+   BASE
+   ============================================ */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   KEYFRAMES
+   ============================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-22px); }
+  to   { opacity: 1; transform: translateX(0);     }
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(22px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.93); }
+  to   { opacity: 1; transform: scale(1);    }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0);   }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
+@keyframes pulseCyan {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(6,182,212,.30); }
+  50%       { box-shadow: 0 0 0 12px rgba(6,182,212,.00); }
+}
+
+/* ============================================
+   ANIMATION UTILITIES
+   ============================================ */
+.anim-fade-up    { animation: fadeInUp   0.8s cubic-bezier(.16,1,.3,1) both; }
+.anim-fade-left  { animation: fadeInLeft 0.75s cubic-bezier(.16,1,.3,1) both; }
+.anim-fade-right { animation: fadeInRight 0.75s cubic-bezier(.16,1,.3,1) both; }
+.anim-scale-up   { animation: scaleUp    0.65s cubic-bezier(.16,1,.3,1) both; }
+.anim-float      { animation: floatY 4s ease-in-out infinite; }
+
+.delay-100 { animation-delay: .10s; }
+.delay-200 { animation-delay: .20s; }
+.delay-300 { animation-delay: .30s; }
+.delay-400 { animation-delay: .40s; }
+.delay-500 { animation-delay: .50s; }
+.delay-600 { animation-delay: .60s; }
+.delay-700 { animation-delay: .70s; }
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+.heading-jp {
+  font-family: var(--font-noto-serif-jp, "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", Georgia, serif);
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+
+.text-gradient {
+  background: linear-gradient(130deg, #0e7490 0%, #06b6d4 55%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   EYEBROW (section sub-label with lines)
+   ============================================ */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #0891b2;
+}
+
+.eyebrow::before,
+.eyebrow::after {
+  content: '';
+  display: block;
+  width: 30px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #06b6d4);
+  flex-shrink: 0;
+}
+
+.eyebrow::after {
+  background: linear-gradient(90deg, #06b6d4, transparent);
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+.card-premium {
+  background: rgba(255,255,255,.97);
+  border: 1px solid rgba(6,182,212,.12);
+  box-shadow: 0 2px 16px rgba(6,182,212,.07), 0 1px 3px rgba(0,0,0,.04);
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease;
+}
+
+.card-premium:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 18px 44px rgba(6,182,212,.15), 0 4px 12px rgba(0,0,0,.06);
+}
+
+.card-glass {
+  background: rgba(255,255,255,.80);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(6,182,212,.18);
+  box-shadow: 0 4px 24px rgba(6,182,212,.09), 0 1px 2px rgba(0,0,0,.04);
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn-cyan {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  color: #fff;
+  font-weight: 700;
+  transition: transform .25s ease, box-shadow .25s ease;
+  box-shadow: 0 4px 20px rgba(6,182,212,.38);
+}
+
+.btn-cyan::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,.18) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.btn-cyan:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(6,182,212,.50);
+}
+
+.btn-cyan:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(6,182,212,.30);
+}
+
+/* ============================================
+   SECTION DIVIDER (diagonal)
+   ============================================ */
+.divider-diagonal-down {
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+  padding-bottom: 80px;
+}
+
+.divider-diagonal-up {
+  clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+  padding-top: 80px;
+}
+
+/* ============================================
+   BEFORE/AFTER ARROW
+   ============================================ */
+.ba-arrow {
+  position: relative;
+}
+
+.ba-arrow::after {
+  content: '→';
+  position: absolute;
+  right: -28px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: #06b6d4;
+  font-weight: 900;
+}
+
+/* ============================================
+   MISC
+   ============================================ */
+.border-left-accent {
+  border-left: 3px solid #06b6d4;
+  padding-left: 12px;
+}
+
+.shadow-cyan-sm  { box-shadow: 0 2px 12px rgba(6,182,212,.10); }
+.shadow-cyan     { box-shadow: 0 4px 24px rgba(6,182,212,.14); }
+.shadow-cyan-lg  { box-shadow: 0 8px 36px rgba(6,182,212,.20); }
+
+/* Scroll-reveal helper: start hidden, JS adds .revealed */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }

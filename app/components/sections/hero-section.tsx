@@ -1,84 +1,122 @@
 'use client';
 
 import { ArrowRight, Home } from 'lucide-react';
+import Image from 'next/image';
 import type { FC } from 'react';
 
-// 動画・画像のパスはpropsで受け取れるよう拡張も可能（現状は動画優先で仮パス）
-const imageSrc = "/images/stretchPC.png";
-const spImageSrc = "/images/stretchSmartPhone.png";
+const heroBGSrc = "/images/pro-stretch.jpeg";
 
 const HeroSection: FC = () => {
-    const handleReservation = () => {
-      const contactSection = document.getElementById('contact');
-      if (contactSection) {
-        // 固定ヘッダーの高さを考慮したオフセット計算
-        const headerHeight = 120; // h-20 = 80px
-        const elementPosition = contactSection.getBoundingClientRect().top + window.pageYOffset;
-        const offsetPosition = elementPosition - headerHeight;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      }
-    };
-  
-    return (
-      <section className="relative w-full min-h-[60vh] md:min-h-[80vh] lg:min-h-[85vh] flex items-center justify-center bg-white overflow-hidden py-16 md:py-24">
-        {/* 背景動画 or 画像 */}
-        <div className="absolute inset-0 z-0">
-          {/* PC用画像 (mdサイズ以上で表示) */}
-          <img
-              src={imageSrc}
-              alt="ストレッチ施術のイメージ"
-              className="hidden md:block absolute inset-0 w-full h-full object-cover object-center brightness-95"
-          />
-          {/* スマホ用画像 (mdサイズ未満で表示) */}
-          <img
-              src={spImageSrc}
-              alt="ストレッチ施術のイメージ"
-              className="block md:hidden absolute inset-0 w-full h-full object-cover object-center brightness-95"
-          />
-              
-          {/* グラデーションレイヤー */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/60 to-white/80" />
-        </div>
-        
-        {/* コンテンツ */}
-        <div className="relative z-10 flex flex-col items-center justify-center max-w-3xl md:max-w-4xl mx-auto text-center px-4">
-          {/* スタイリッシュな訪問ストレッチバッジ */}
-          <div className="absolute -top-12 md:-top-20 left-3">
-            {/* メインバッジ */}
-            <div className="relative flex items-center gap-2 md:gap-3 bg-gradient-to-r from-cyan-400 to-sky-500 text-white font-bold px-6 md:px-10 py-2 md:py-3 shadow-xl backdrop-blur-sm">
-              {/* 左側のアクセントバー */}
-              <div className="absolute left-0 top-0 bottom-0 w-1 bg-white"></div>
-              
-              {/* アイコン */}
-              <Home className="w-4 h-4 md:w-5 md:h-5" />
-              
-              {/* テキスト */}
-              <span className="text-sm md:text-lg tracking-wider font-bold">訪問ストレッチ</span>
-            </div>
-          </div>
-          
-          <h1 className="text-2xl md:text-5xl font-bold text-gray-800 mb-8 drop-shadow-xl leading-tight text-left pt-3 pr-10">
-            体の芯から<br /><span className="text-cyan-600">本物のストレッチ体験</span>を。
-          </h1>
-          <p className="text-sm md:text-xl text-gray-700 mb-10 leading-relaxed font-medium text-left md:text-left text-center">
-            大手企業で培った技術を持つトレーナーによるパーソナル施術で<br className="hidden md:inline" />柔軟性・姿勢・疲労感を根本から改善。<br />
-            初回体験キャンペーン実施中。今すぐご予約を!
-          </p>
-          <button 
-            className="bg-cyan-500 hover:bg-cyan-600 active:bg-cyan-800 text-white font-semibold md:text-xl px-8 py-4 md:px-12 md:py-5 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 inline-flex items-center gap-2" 
-            aria-label="予約ページへ"
-            onClick={handleReservation}
-          >
-            予約する
-            <ArrowRight className="w-5 h-5 md:w-6 md:h-6 stroke-[1.5] group-hover:translate-x-1 transition-transform" />
-          </button>
-        </div>
-      </section>
-    );
+  const handleReservation = () => {
+    const el = document.getElementById('contact');
+    if (el) {
+      const offset = el.getBoundingClientRect().top + window.pageYOffset - 100;
+      window.scrollTo({ top: offset, behavior: 'smooth' });
+    }
   };
-  
-  export default HeroSection;
+
+  const textContent = (
+    <>
+      {/* バッジ */}
+      <div className="anim-fade-left mb-5 md:mb-7">
+        <span className="inline-flex items-center gap-2.5 bg-linear-to-r from-cyan-500 to-cyan-600 text-white text-xs md:text-sm font-bold px-5 py-2 rounded-full shadow-[0_4px_16px_rgba(6,182,212,0.45)] tracking-wide">
+          <Home className="w-3.5 h-3.5 shrink-0" />
+          訪問パーソナルストレッチ
+        </span>
+      </div>
+
+      {/* メインコピー */}
+      <h1 className="heading-jp anim-fade-up delay-100 text-[1.75rem] sm:text-4xl md:text-5xl lg:text-[3.2rem] font-black text-slate-800 leading-[1.2] mb-5 md:mb-6">
+        体の芯から<br />
+        <span className="text-gradient">本物のストレッチ体験</span>
+        <span className="text-slate-800">を。</span>
+      </h1>
+
+      {/* サブコピー */}
+      <p className="anim-fade-up delay-200 text-sm md:text-base text-slate-600 leading-relaxed mb-8 md:mb-10 font-medium">
+        大手企業で培った技術を持つトレーナーによるパーソナル施術で<br className="hidden lg:inline" />
+        柔軟性・姿勢・疲労感を根本から改善。<br />
+        <span className="text-cyan-600 font-semibold">初回体験キャンペーン実施中。</span>今すぐご予約を。
+      </p>
+
+      {/* CTAボタン */}
+      <div className="anim-fade-up delay-300 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <button
+          className="btn-cyan inline-flex items-center gap-3 px-8 py-4 rounded-full text-base font-bold"
+          aria-label="予約ページへ"
+          onClick={handleReservation}
+        >
+          無料相談・ご予約はこちら
+          <ArrowRight className="w-5 h-5 stroke-2" />
+        </button>
+        <span className="text-xs text-slate-500 font-medium">
+          初回 <span className="text-cyan-600 font-bold">50% OFF</span>
+        </span>
+      </div>
+
+      {/* 実績バッジ群 */}
+      <div className="anim-fade-up delay-400 mt-8 flex flex-wrap gap-2">
+        {[
+          { label: '実績豊富',   sub: 'JSA公認資格保持' },
+          { label: '完全訪問型', sub: 'ご自宅まで伺います' },
+          { label: '大阪全域',   sub: '出張費無料エリアあり' },
+        ].map((b) => (
+          <div key={b.label} className="flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-cyan-100 rounded-full px-3 py-1.5 shadow-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 shrink-0" />
+            <span className="text-[11px] font-bold text-slate-700">{b.label}</span>
+            <span className="text-[10px] text-slate-500">{b.sub}</span>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+
+  return (
+    <section className="relative w-full min-h-[88vh] flex items-center justify-center overflow-hidden">
+
+      {/* 背景画像レイヤー */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src={heroBGSrc}
+          alt="ストレッチ施術のイメージ"
+          fill
+          sizes="100vw"
+          quality={100}
+          unoptimized
+          className="object-cover object-[50%_15%] scale-[1.15] transition-none"
+          priority
+        />
+
+        {/* SP: 全体に白をかぶせてテキストを読みやすく */}
+        <div className="absolute inset-0 bg-white/80 md:hidden" />
+        {/* PC: 左から白グラデーション */}
+        <div className="absolute inset-0 hidden md:block bg-linear-to-r from-white/96 via-white/85 to-white/30" />
+        {/* 上下の縁なじませ */}
+        <div className="absolute inset-0 bg-linear-to-t from-white/40 via-transparent to-white/20" />
+        {/* シアンの色調 */}
+        <div className="absolute inset-0 bg-cyan-600/5" />
+      </div>
+
+      {/* 装飾ライン（PCのみ） */}
+      <div className="absolute right-10 top-1/2 -translate-y-1/2 z-10 opacity-25 hidden md:flex flex-col items-center gap-3">
+        <div className="w-px h-24 bg-linear-to-b from-transparent via-cyan-400 to-transparent" />
+        <span className="text-[9px] tracking-[0.25em] text-cyan-500 font-bold uppercase rotate-90 whitespace-nowrap origin-center translate-y-2">Personal Stretch</span>
+      </div>
+
+      {/* コンテンツ */}
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-24 md:py-28">
+        <div className="max-w-2xl">
+          {textContent}
+        </div>
+      </div>
+
+      {/* スクロールインジケーター */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 opacity-40">
+        <span className="text-[9px] tracking-widest uppercase text-slate-500 font-semibold">Scroll</span>
+        <div className="w-px h-7 bg-linear-to-b from-cyan-400 to-transparent" />
+      </div>
+    </section>
+  );
+};
+
+export default HeroSection;

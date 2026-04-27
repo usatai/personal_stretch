@@ -21,8 +21,8 @@ const scrollToContact = () => {
 const ConcernsSection = () => (
   <section id="concerns" className="relative bg-slate-950 overflow-hidden">
     {/* 装飾グロー */}
-    <div className="absolute -top-24 -right-24 w-[480px] h-[480px] rounded-full bg-cyan-800/15 blur-[130px] pointer-events-none" />
-    <div className="absolute -bottom-16 -left-16 w-[320px] h-[320px] rounded-full bg-cyan-900/12 blur-[100px] pointer-events-none" />
+    <div className="absolute -top-24 -right-24 w-120 h-120 rounded-full bg-cyan-800/15 blur-[130px] pointer-events-none" />
+    <div className="absolute -bottom-16 -left-16 w-[320px] h-80 rounded-full bg-cyan-900/12 blur-[100px] pointer-events-none" />
 
     <div className="relative max-w-5xl mx-auto px-6 sm:px-10 lg:px-12 py-24 sm:py-32">
 
@@ -42,16 +42,16 @@ const ConcernsSection = () => (
       </ScrollReveal>
 
       {/* 番号付きリスト */}
-      <div className="border-t border-white/[0.08]">
+      <div className="border-t border-white/8">
         {concerns.map((c, i) => (
           <ScrollReveal key={i} delay={i * 65} direction="left">
-            <div className="group relative flex items-center gap-5 md:gap-10 py-8 md:py-10 border-b border-white/[0.08] cursor-default overflow-hidden">
+            <div className="group relative flex items-center gap-5 md:gap-10 py-8 md:py-10 border-b border-white/8 cursor-default overflow-hidden">
 
               {/* ホバー背景スウィープ */}
-              <div className="absolute inset-0 bg-white/[0.025] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out" />
+              <div className="absolute inset-0 bg-white/2.5 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out" />
 
               {/* 左アクセントバー */}
-              <div className="absolute left-0 top-3 bottom-3 w-[3px] bg-linear-to-b from-cyan-400 to-cyan-600 rounded-full origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-350 ease-out" />
+              <div className="absolute left-0 top-3 bottom-3 w-0.75 bg-linear-to-b from-cyan-400 to-cyan-600 rounded-full origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-350 ease-out" />
 
               {/* 番号 */}
               <span className="relative shrink-0 w-8 text-right font-mono text-xs font-black text-cyan-700 group-hover:text-cyan-400 tracking-widest transition-colors duration-300">

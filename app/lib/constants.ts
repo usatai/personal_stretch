@@ -3,13 +3,11 @@
 export const SITE_CONFIG = {
   name: "田島ストレッチ",
   description: "プロのトレーナーによる完全マンツーマンストレッチ指導",
-  url: "https://tajima-stretch.com",
+  url: "https://www.reborn-stretch.com",
   ogImage: "/images/og-image.jpg",
 } as const;
 
 export const CONTACT_INFO = {
-  phone: "090-1234-5678",
-  email: "info@tajima-stretch.com",
   businessHours: "9:00〜21:00（最終受付20:00）",
 } as const;
 

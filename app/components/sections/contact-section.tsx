@@ -2,21 +2,20 @@
 
 import React, { useState, useEffect } from 'react';
 import { useForm, SubmitHandler, FieldError } from 'react-hook-form';
-import emailjs from '@emailjs/browser';
 import { UseFormRegister } from 'react-hook-form';
 import { CheckCircle2, Send } from 'lucide-react';
+import { COURSES } from '@/app/lib/constants';
+import {
+  CONTACT_LIMITS,
+  RESERVATION_MONTHS_AHEAD,
+  TIME_OPTIONS,
+  type ContactPayload,
+} from '@/app/lib/contact';
+import { ContactSendError, sendContactRequest } from '@/app/lib/send-contact';
 
-type FormData = {
-  name: string;
-  email: string;
-  tel: string;
-  firstChoiceDate: string;
-  firstChoiceTime: string;
-  choiceStretch: string;
-  secondChoiceDate?: string;
-  secondChoiceTime?: string;
-  message?: string;
-};
+// フォームの項目定義は app/lib/contact.ts に集約している。
+// 項目を増減するときはそちらを直せば、EmailJS 直送信・API経由の両方に反映される。
+type FormData = ContactPayload;
 
 type Status = 'idle' | 'loading' | 'success' | 'error';
 
@@ -27,9 +26,6 @@ type FormFieldProps = {
   required?: boolean;
   children: React.ReactNode;
 };
-
-const TIME_OPTIONS = ["09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00"];
-const STRETCH_PLAN = ["40分コース","60分コース","80分コース"];
 
 const inputStyle =
   "w-full p-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 outline-none transition-all duration-200 text-slate-800 placeholder:text-slate-400 text-sm";
@@ -44,11 +40,11 @@ const validateDate = (value: string) => {
   if (!value) return true;
   const sel = new Date(value);
   const today = new Date(); today.setHours(0,0,0,0);
-  const max = new Date(); max.setMonth(max.getMonth() + 3);
+  const max = new Date(); max.setMonth(max.getMonth() + RESERVATION_MONTHS_AHEAD);
   return sel >= today && sel <= max;
 };
 
-const HoneyPot = ({ register }: { register: UseFormRegister<FormData & { website?: string }> }) => (
+const HoneyPot = ({ register }: { register: UseFormRegister<FormData> }) => (
   <div style={{ position: 'absolute', left: '-9999px' }} aria-hidden="true">
     <input type="text" {...register('website')} tabIndex={-1} autoComplete="off" />
   </div>
@@ -73,7 +69,7 @@ const FormField = ({ label, name, error, required, children }: FormFieldProps) =
 );
 
 const ContactSection = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData & { website?: string }>();
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const [status, setStatus] = useState<Status>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [isFormReady, setIsFormReady] = useState(false);
@@ -83,7 +79,7 @@ const ContactSection = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const onSubmit: SubmitHandler<FormData & { website?: string }> = async (data) => {
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (data.website) return;
     if (!isFormReady) { setErrorMessage('少々お待ちください。'); setStatus('error'); return; }
 
@@ -91,28 +87,21 @@ const ContactSection = () => {
     setErrorMessage('');
 
     try {
-      await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        {
-          name: data.name, email: data.email, tel: data.tel,
-          firstChoiceDate: data.firstChoiceDate, firstChoiceTime: data.firstChoiceTime,
-          choiceStretch: data.choiceStretch,
-          secondChoiceDate: data.secondChoiceDate || '',
-          secondChoiceTime: data.secondChoiceTime || '',
-          message: data.message || '',
-        },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-      );
+      // 送信経路（EmailJS 直送信 / API ルート経由）の分岐は send-contact.ts に閉じている
+      await sendContactRequest(data);
       setStatus('success');
-    } catch {
+    } catch (error) {
       setStatus('error');
-      setErrorMessage('送信に失敗しました。時間をおいて再度お試しください。');
+      setErrorMessage(
+        error instanceof ContactSendError
+          ? error.message
+          : '送信に失敗しました。時間をおいて再度お試しください。'
+      );
     }
   };
 
   const today = new Date().toISOString().split('T')[0];
-  const maxDate = new Date(); maxDate.setMonth(maxDate.getMonth() + 3);
+  const maxDate = new Date(); maxDate.setMonth(maxDate.getMonth() + RESERVATION_MONTHS_AHEAD);
   const maxDateStr = maxDate.toISOString().split('T')[0];
 
   return (
@@ -142,12 +131,12 @@ const ContactSection = () => {
 
               <FormField label="お名前" name="name" error={errors.name} required>
                 <input
-                  id="name" type="text" placeholder="例: 山田 太郎" autoComplete="name" maxLength={50}
+                  id="name" type="text" placeholder="例: 山田 太郎" autoComplete="name" maxLength={CONTACT_LIMITS.name}
                   className={`${inputStyle} ${errors.name ? errorInputStyle : ''}`}
                   {...register("name", {
                     required: "お名前は必須です",
                     minLength: { value: 2, message: "2文字以上で入力してください" },
-                    maxLength: { value: 50, message: "50文字以内で入力してください" },
+                    maxLength: { value: CONTACT_LIMITS.name, message: `${CONTACT_LIMITS.name}文字以内で入力してください` },
                     pattern: { value: /^[ぁ-んァ-ヶー一-龯a-zA-Z\s]+$/, message: "有効な名前を入力してください" },
                   })}
                 />
@@ -156,19 +145,19 @@ const ContactSection = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <FormField label="メールアドレス" name="email" error={errors.email} required>
                   <input
-                    id="email" type="email" placeholder="例: example@mail.com" autoComplete="email" maxLength={100}
+                    id="email" type="email" placeholder="例: example@mail.com" autoComplete="email" maxLength={CONTACT_LIMITS.email}
                     className={`${inputStyle} ${errors.email ? errorInputStyle : ''}`}
                     {...register("email", {
                       required: "メールアドレスは必須です",
                       pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: "有効なメールアドレスを入力してください" },
-                      maxLength: { value: 100, message: "100文字以内で入力してください" },
+                      maxLength: { value: CONTACT_LIMITS.email, message: `${CONTACT_LIMITS.email}文字以内で入力してください` },
                     })}
                   />
                 </FormField>
 
                 <FormField label="電話番号" name="tel" error={errors.tel} required>
                   <input
-                    id="tel" type="tel" placeholder="例: 090-1234-5678" autoComplete="tel" maxLength={20}
+                    id="tel" type="tel" placeholder="例: 090-1234-5678" autoComplete="tel" maxLength={CONTACT_LIMITS.tel}
                     className={`${inputStyle} ${errors.tel ? errorInputStyle : ''}`}
                     {...register("tel", {
                       required: "電話番号は必須です",
@@ -184,8 +173,8 @@ const ContactSection = () => {
                   className={`${inputStyle} ${errors.choiceStretch ? errorInputStyle : ''}`}
                   {...register("choiceStretch", { required: "コースの選択は必須です" })}
                 >
-                  <option value="">ご希望のコースを選択してください</option>
-                  {STRETCH_PLAN.map((p) => <option key={p} value={p}>{p}</option>)}
+                  <option value="">コースを選択してください</option>
+                  {COURSES.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}
                 </select>
               </FormField>
 
@@ -198,7 +187,7 @@ const ContactSection = () => {
                       className={`${inputStyle} ${errors.firstChoiceDate ? errorInputStyle : ''}`}
                       {...register("firstChoiceDate", {
                         required: "第1希望日程は必須です",
-                        validate: (v) => validateDate(v) || "本日から3ヶ月以内の日付を選択してください",
+                        validate: (v) => validateDate(v) || `本日から${RESERVATION_MONTHS_AHEAD}ヶ月以内の日付を選択してください`,
                       })}
                     />
                   </FormField>
@@ -223,7 +212,7 @@ const ContactSection = () => {
                       id="secondChoiceDate" type="date" min={today} max={maxDateStr}
                       className={`${inputStyle} ${errors.secondChoiceDate ? errorInputStyle : ''}`}
                       {...register("secondChoiceDate", {
-                        validate: (v) => !v || validateDate(v) || "本日から3ヶ月以内の日付を選択してください",
+                        validate: (v) => !v || validateDate(v) || `本日から${RESERVATION_MONTHS_AHEAD}ヶ月以内の日付を選択してください`,
                       })}
                     />
                   </FormField>
@@ -242,12 +231,17 @@ const ContactSection = () => {
 
               <FormField label="お悩み・ご質問" name="message" error={errors.message}>
                 <textarea
-                  id="message" rows={4} autoComplete="off" maxLength={1000}
+                  id="message" rows={4} autoComplete="off" maxLength={CONTACT_LIMITS.message}
                   placeholder="身体の具体的なお悩みや、ご質問などがあればご記入ください。"
                   className={`${inputStyle} resize-none ${errors.message ? errorInputStyle : ''}`}
-                  {...register("message", { maxLength: { value: 1000, message: "1000文字以内で入力してください" } })}
+                  {...register("message", { maxLength: { value: CONTACT_LIMITS.message, message: `${CONTACT_LIMITS.message}文字以内で入力してください` } })}
                 />
               </FormField>
+
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                ※ 回数券・学生割引をご希望の場合は、お悩み・ご質問欄にご記入いただくか、
+                当日トレーナーへお申し付けください。料金は施術当日にご案内いたします。
+              </p>
 
               <div className="pt-2">
                 <button

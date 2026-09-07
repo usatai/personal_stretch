@@ -1,5 +1,4 @@
-'use client';
-
+import Link from 'next/link';
 import { ScrollReveal } from '@/app/components/ui/scroll-reveal';
 import { ArrowRight } from 'lucide-react';
 
@@ -9,14 +8,6 @@ const concerns = [
   { num: "03", jp: "運動不足だが、何をすればいいかわからない", en: "No direction" },
   { num: "04", jp: "自宅で気軽にプロのケアを受けたい",        en: "Need convenience" },
 ];
-
-const scrollToContact = () => {
-  const el = document.getElementById('contact');
-  if (el) {
-    const offset = el.getBoundingClientRect().top + window.pageYOffset - 100;
-    window.scrollTo({ top: offset, behavior: 'smooth' });
-  }
-};
 
 const ConcernsSection = () => (
   <section id="concerns" className="relative bg-slate-950 overflow-hidden">
@@ -75,13 +66,13 @@ const ConcernsSection = () => (
       {/* フッター */}
       <ScrollReveal className="mt-14 flex flex-col sm:flex-row items-start sm:items-center gap-3">
         <p className="text-white/30 text-sm font-medium">ひとつでも当てはまる方へ —</p>
-        <button
-          onClick={scrollToContact}
+        <Link
+          href="/contact"
           className="text-cyan-400 hover:text-cyan-300 font-bold text-sm flex items-center gap-1.5 transition-colors duration-200"
         >
           Reborn Stretch が解決します
           <ArrowRight className="w-3.5 h-3.5" />
-        </button>
+        </Link>
       </ScrollReveal>
     </div>
   </section>

@@ -34,7 +34,7 @@ npm run lint   # ESLint
 | パス | 内容 | 主なコンポーネント |
 |------|------|------|
 | `/` | トップ（Hero＋お悩み＋特徴要約＋料金抜粋＋CTA） | `hero` / `concerns` / `features-digest` / `price-section` |
-| `/about` | サービス紹介・特徴 | `concerns-section` / `features-section` |
+| `/about` | サービス紹介・特徴 | `features-section` |
 | `/trainer` | トレーナー紹介 | `trainer-section` |
 | `/price` | **料金・コース**（単発 / 初回体験 / 回数券 / 学生割引） | `components/price/*` |
 | `/results` | お客様の変化（Before/After） | `bodychange-section` |
@@ -63,7 +63,8 @@ npm run lint   # ESLint
 
 **価格を数値でハードコードしないこと。** 基本単価と割引率のみを `app/lib/constants.ts` に持ち、
 表示金額は `app/lib/pricing.ts` の純関数で算出する（表と定数の二重管理による不整合を防ぐため）。
-JSON-LD の `makesOffer` や予約フォームの概算金額も同じ関数を通している。
+JSON-LD の `makesOffer`（`layout.tsx`）も同じ関数を通して生成している。
+予約フォームは料金を扱わない（「予約フォームの設計方針」を参照）。
 
 ### 基本単価（単発・税込）
 
@@ -127,32 +128,46 @@ app/
       contact-section.tsx   # お問い合わせフォーム（セキュリティ実装あり）
       footer-section.tsx
     ui/
-      button.tsx
       scroll-reveal.tsx     # IntersectionObserver によるスクロール表示
   lib/
-    types.ts      # 型定義（Course, TicketPlan, PriceTier, ContactFormData 等）
-    constants.ts  # 定数（COURSES, TICKET_PLANS, 割引率, NAV_ITEMS,
-                  #   RESERVATION_PLAN_OPTIONS, FAQ_ITEMS, SERVICE_AREAS, SITE_CONFIG）
+    types.ts      # 型定義（Course, TicketPlan, PriceTier, ServiceArea, FaqItem）
+    constants.ts  # 定数（COURSES, TICKET_PLANS, 割引率, DISCOUNT_RULES, NAV_ITEMS,
+                  #   FAQ_ITEMS, SERVICE_AREAS, FREE_AREA_LABEL, CONTACT_INFO, SITE_CONFIG）
     pricing.ts    # 価格算出の純関数（calcTicketPrice / calcFirstTimePrice /
-                  #   calcStudentPrice / calcReservationPrice / formatYen）
-    utils.ts      # cn() ユーティリティ
+                  #   calcStudentPrice / formatYen / discountLabel）
+    contact.ts       # 予約フォームの型・選択肢・文字数上限・EmailJS変換（クライアント／サーバー共有）
+    send-contact.ts  # 送信処理と送信経路の分岐（クライアント専用）
   api/
     send-email/route.ts  # POST /api/send-email（EmailJS経由メール送信）
 docs/
-  hp-renewal-plan.md   # リニューアル設計書（料金・ページ構成の一次情報）
+  hp-renewal-plan.md        # リニューアル設計書（料金・ページ構成の一次情報）
+  ui-ux-improvement-spec.md # UI/UX 改善仕様書（優先度つきの実装指示）
+design-system/reborn-stretch/
+  MASTER.md            # デザインシステム（色・タイポ・余白・モーション・a11y の一次情報）
 public/images/         # 画像アセット（before/after, trainer, hero等）
 ```
 
 ## コーディング規約
 
+> **色・文字サイズ・余白・モーション・アクセシビリティの判断は
+> `design-system/reborn-stretch/MASTER.md` を唯一の正とする。**
+> UIを追加・変更する前に同ファイルを読み、末尾の「実装前チェックリスト」を通すこと。
+> 未実施の改善項目とその実装手順は `docs/ui-ux-improvement-spec.md` にある。
+
 - **スタイリング**: Tailwindクラスのみ（CSS Modules未使用）。共通の見た目は `globals.css` の
   ユーティリティ（`card-premium` / `btn-cyan` / `heading-jp` / `eyebrow` / `text-gradient` / `shadow-cyan*`）を使う。
-- **メインカラー**: cyan-500系グラデーション（`from-cyan-50 to-cyan-100` 等）。
-  新規向け・限定訴求のみオレンジ系をアクセントに使う。
+- **メインカラー**: cyan系。ただし**文字色に使う cyan は 700（`#0e7490`）以上**とし、
+  cyan-500 は面・罫線・アイコンなどの装飾に限る（コントラスト基準を満たさないため）。
+  新規向け・限定訴求のみオレンジ系（`orange-700` 以上）をアクセントに使う。詳細は MASTER.md §2。
+- **文字サイズ**: 下限 12px（`text-xs`）。本文の既定は 16px（`text-base`）。詳細は MASTER.md §3。
 - **レスポンシブ**: モバイルファースト（sm: / md: / lg: ブレークポイント）。
   **表組みは横スクロールさせず、SPではカード縦積みに切り替える。**
 - **セクション追加**: 共通の `<Section id subTitle mainTitle>` を使う。
 - **定数追加**: `app/lib/constants.ts` に集約する。
+- **出張エリア**: `SERVICE_AREAS` が唯一の情報源。エリア名・地域リストをコンポーネント側に
+  書かないこと。出張費無料エリアは `isFree` で表し、画面文言は `FREE_AREA_LABEL`
+  （`isFree` から導出）を使う。`area-section` / `price-notes` / `FAQ_ITEMS` が参照しており、
+  ここを直せば3箇所すべてに反映される。受付時間も同様に `CONTACT_INFO.businessHours` を使う。
 - **型追加**: `app/lib/types.ts` に追加する。
 - **`"use client"`**: 状態やイベントを持つコンポーネントのみに付ける。ページ本体はサーバーコンポーネントのままにする。
 

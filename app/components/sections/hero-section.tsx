@@ -1,20 +1,11 @@
-'use client';
-
 import { ArrowRight, Home } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import type { FC } from 'react';
 
 const heroBGSrc = "/images/pro-stretch.jpeg";
 
 const HeroSection: FC = () => {
-  const handleReservation = () => {
-    const el = document.getElementById('contact');
-    if (el) {
-      const offset = el.getBoundingClientRect().top + window.pageYOffset - 100;
-      window.scrollTo({ top: offset, behavior: 'smooth' });
-    }
-  };
-
   const textContent = (
     <>
       {/* バッジ */}
@@ -41,14 +32,14 @@ const HeroSection: FC = () => {
 
       {/* CTAボタン */}
       <div className="anim-fade-up delay-300 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-        <button
+        <Link
+          href="/contact"
           className="btn-cyan inline-flex items-center gap-3 px-8 py-4 rounded-full text-base font-bold"
-          aria-label="予約ページへ"
-          onClick={handleReservation}
+          aria-label="ご予約・お問い合わせページへ"
         >
           無料相談・ご予約はこちら
           <ArrowRight className="w-5 h-5 stroke-2" />
-        </button>
+        </Link>
         <span className="text-xs text-slate-500 font-medium">
           初回 <span className="text-cyan-600 font-bold">50% OFF</span>
         </span>

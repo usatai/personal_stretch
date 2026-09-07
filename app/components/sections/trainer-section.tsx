@@ -30,11 +30,11 @@ const TrainerSection = () => (
       {/* 名前 */}
       <div>
         <p className="text-[11px] font-bold text-cyan-600 tracking-[0.18em] uppercase mb-2">Trainer</p>
-        <h3 className="heading-jp text-3xl md:text-4xl font-black text-slate-800 leading-none">
+        <h2 className="heading-jp text-3xl md:text-4xl font-black text-slate-800 leading-none">
           <ruby>田島<rt className="text-[10px] font-normal">たしま</rt></ruby>
           {' '}
           <ruby>樹騎邪<rt className="text-[10px] font-normal">じゅきや</rt></ruby>
-        </h3>
+        </h2>
         <div className="mt-3 w-12 h-0.5 rounded-full bg-linear-to-r from-cyan-400 to-cyan-600" />
       </div>
 

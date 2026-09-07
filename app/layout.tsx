@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Serif_JP } from "next/font/google";
 import "./globals.css";
 import Header from "./components/header";
+import FooterSection from "./components/sections/footer-section";
+import { COURSES, SITE_CONFIG, TICKET_PLANS } from "./lib/constants";
+import { calcFirstTimePrice, calcTicketPrice, discountLabel } from "./lib/pricing";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,7 +23,7 @@ const notoSerifJP = Noto_Serif_JP({
   display: "swap",
 });
 
-const siteUrl = "https://www.reborn-stretch.com";
+const siteUrl = SITE_CONFIG.url;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -29,7 +32,7 @@ export const metadata: Metadata = {
     template: "%s｜Reborn Stretch",
   },
   description:
-    "店舗不要・出張費無料。プロトレーナーがご自宅へ伺う完全マンツーマンの訪問パーソナルストレッチ。大手企業仕込みの技術で柔軟性・姿勢・慢性疲労を根本から改善。大阪・北摂・東大阪・堺対応。初回体験50%OFF。",
+    "店舗不要・出張費無料エリアあり。プロトレーナーがご自宅へ伺う完全マンツーマンの訪問パーソナルストレッチ。大手企業仕込みの技術で柔軟性・姿勢・慢性疲労を根本から改善。大阪・北摂・東大阪・堺対応。初回体験50%OFF、回数券・学生割引あり。",
   keywords: [
     "訪問パーソナルストレッチ",
     "出張ストレッチ",
@@ -40,6 +43,8 @@ export const metadata: Metadata = {
     "東大阪 ストレッチ",
     "堺 ストレッチ",
     "マンツーマン ストレッチ",
+    "ストレッチ 回数券",
+    "ストレッチ 学生割引",
     "柔軟性改善",
     "姿勢改善",
     "Reborn Stretch",
@@ -48,7 +53,7 @@ export const metadata: Metadata = {
   creator: "Reborn Stretch",
   publisher: "Reborn Stretch",
   alternates: {
-    canonical: siteUrl,
+    canonical: "/",
   },
   openGraph: {
     type: "website",
@@ -57,10 +62,10 @@ export const metadata: Metadata = {
     siteName: "Reborn Stretch",
     title: "Reborn Stretch｜大阪の訪問パーソナルストレッチ",
     description:
-      "大阪・北摂・東大阪・堺エリア対応。プロトレーナーによる完全マンツーマンの訪問パーソナルストレッチ。初回体験50%OFF・出張費無料。",
+      "大阪・北摂・東大阪・堺エリア対応。プロトレーナーによる完全マンツーマンの訪問パーソナルストレッチ。初回体験50%OFF・回数券・学生割引あり。",
     images: [
       {
-        url: "/images/stretchPC.png",
+        url: SITE_CONFIG.ogImage,
         width: 1200,
         height: 630,
         alt: "Reborn Stretch - 大阪の訪問パーソナルストレッチ",
@@ -71,8 +76,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Reborn Stretch｜大阪の訪問パーソナルストレッチ",
     description:
-      "大阪・北摂・東大阪・堺エリア対応。プロトレーナーによる完全マンツーマンの訪問パーソナルストレッチ。初回体験50%OFF。",
-    images: ["/images/stretchPC.png"],
+      "大阪・北摂・東大阪・堺エリア対応。プロトレーナーによる完全マンツーマンの訪問パーソナルストレッチ。初回体験50%OFF・回数券・学生割引あり。",
+    images: [SITE_CONFIG.ogImage],
   },
   robots: {
     index: true,
@@ -87,6 +92,36 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * 構造化データの Offer 一覧。
+ * 価格は pricing.ts の算出結果をそのまま使い、ここで数値をハードコードしない。
+ */
+const offers = [
+  ...COURSES.map((course) => ({
+    "@type": "Offer" as const,
+    name: `${course.label}（単発）`,
+    price: String(course.basePrice),
+    priceCurrency: "JPY",
+    description: course.catchCopy,
+  })),
+  ...COURSES.map((course) => ({
+    "@type": "Offer" as const,
+    name: `${course.label}（初回体験 50%OFF）`,
+    price: String(calcFirstTimePrice(course)),
+    priceCurrency: "JPY",
+    description: "初めてご利用の方の1回目のみ適用される体験価格。",
+  })),
+  ...TICKET_PLANS.flatMap((plan) =>
+    COURSES.map((course) => ({
+      "@type": "Offer" as const,
+      name: `${course.label} ${plan.label}（${discountLabel(plan.discountRate)}）`,
+      price: String(calcTicketPrice(course, plan).total),
+      priceCurrency: "JPY",
+      description: `${course.label}を${plan.sessions}回分まとめてご購入いただけます。`,
+    }))
+  ),
+];
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -97,6 +132,7 @@ const jsonLd = {
   url: siteUrl,
   priceRange: "¥¥",
   image: `${siteUrl}/images/trainer.jpg`,
+  sameAs: [SITE_CONFIG.instagram],
   address: {
     "@type": "PostalAddress",
     addressRegion: "大阪府",
@@ -106,6 +142,7 @@ const jsonLd = {
     { "@type": "City", name: "大阪市" },
     { "@type": "AdministrativeArea", name: "北摂エリア" },
     { "@type": "City", name: "東大阪市" },
+    { "@type": "City", name: "八尾市" },
     { "@type": "City", name: "堺市" },
   ],
   openingHoursSpecification: {
@@ -122,22 +159,7 @@ const jsonLd = {
     opens: "09:00",
     closes: "21:00",
   },
-  offers: [
-    {
-      "@type": "Offer",
-      name: "40分コース（初回体験）",
-      price: "3000",
-      priceCurrency: "JPY",
-      description: "初回体験50%OFF。気になる部位を集中ケア。",
-    },
-    {
-      "@type": "Offer",
-      name: "60分コース（初回体験）",
-      price: "4500",
-      priceCurrency: "JPY",
-      description: "初回体験50%OFF。全身をしっかりメンテナンス。",
-    },
-  ],
+  makesOffer: offers,
 };
 
 export default function RootLayout({
@@ -157,7 +179,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${notoSerifJP.variable} antialiased`}
       >
         <Header />
-        {children}
+        <main>{children}</main>
+        <FooterSection />
       </body>
     </html>
   );

@@ -19,7 +19,6 @@ const BodyChangeSection = ({ cases = [] }: BodyChangeSectionProps) => (
         <h2 id="bodychange-title" className="heading-jp text-2xl font-bold text-slate-800">
           Before / After
         </h2>
-        <p className="mt-1.5 text-slate-500 text-sm">写真でわかるビフォーアフター。変化を直感的にご覧ください。</p>
       </div>
       <span className="sm:ml-auto text-xs text-slate-400 sm:pb-0.5">※ ストレッチ時間 15分</span>
     </div>

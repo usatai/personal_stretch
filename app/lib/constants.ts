@@ -7,7 +7,7 @@
 // 料金表と定数の二重管理による不整合を防ぐため。
 // 詳細は docs/hp-renewal-plan.md §2 を参照。
 
-import type { Course, FaqItem, ServiceArea, TicketPlan } from "./types";
+import type { Course, FaqItem, ServiceArea, SiteVideo, TicketPlan } from "./types";
 
 export const SITE_CONFIG = {
   name: "Reborn Stretch",
@@ -20,6 +20,48 @@ export const SITE_CONFIG = {
 export const CONTACT_INFO = {
   businessHours: "9:00〜21:00（最終受付20:00）",
 } as const;
+
+/* ============================================================
+   紹介動画
+   ============================================================ */
+
+/**
+ * トップページと /trainer で共用する紹介動画。
+ *
+ * ★動画ファイルが未納品のあいだは null にしておくこと。
+ *   null の場合、動画枠そのものが描画されない（写真などで枠を埋めない）。
+ *
+ * 差し替え手順:
+ *   1. public/videos/ に mp4 と vtt を置く（mp4 は -movflags +faststart 必須）
+ *   2. public/images/ にポスター画像（動画と同じ縦横比）を置く
+ *   3. 下の null を、コメントアウトしてあるオブジェクトに差し替える
+ *   4. width / height は動画の実寸に合わせる（縦横比がずれると CLS が出る）
+ */
+export const INTRO_VIDEO: SiteVideo | null = null;
+
+/**
+ * ★見た目確認用のプレースホルダ。公開前に null に戻すこと。
+ *
+ * 本番の動画（INTRO_VIDEO）が未納品のあいだ、動画枠がどう見えるかを
+ * 確認するためだけに置いている。実際の動画が入ればこちらは無視される。
+ */
+export const INTRO_VIDEO_PLACEHOLDER: { poster: string; width: number; height: number } | null = {
+  poster: "/images/intro-poster-demo.webp",
+  width: 1108,
+  height: 623,
+};
+
+// export const INTRO_VIDEO: SiteVideo | null = {
+//   src: "/videos/intro.mp4",
+//   poster: "/images/intro-poster.webp",
+//   captionSrc: "/videos/intro.vtt",
+//   width: 1280,
+//   height: 720,
+//   title: "Reborn Stretch の施術の様子",
+//   description:
+//     "Reborn Stretch のトレーナーによる自己紹介と、実際の訪問ストレッチ施術の様子をご覧いただけます。",
+//   uploadDate: "2026-09-08",
+// };
 
 /* ============================================================
    ナビゲーション（ヘッダー・フッター共通）

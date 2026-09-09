@@ -24,10 +24,10 @@ const HeroSection: FC = () => {
       </h1>
 
       {/* サブコピー */}
-      <p className="anim-fade-up delay-200 text-sm md:text-base text-slate-600 leading-relaxed mb-8 md:mb-10 font-medium">
+      <p className="anim-fade-up delay-200 text-base text-slate-600 leading-relaxed mb-8 md:mb-10 font-medium">
         大手企業で培った技術を持つトレーナーによるパーソナル施術で<br className="hidden lg:inline" />
         柔軟性・姿勢・疲労感を根本から改善。<br />
-        <span className="text-cyan-600 font-semibold">初回体験キャンペーン実施中。</span>今すぐご予約を。
+        <span className="text-cyan-700 font-semibold">初回体験キャンペーン実施中。</span>今すぐご予約を。
       </p>
 
       {/* CTAボタン */}
@@ -40,8 +40,8 @@ const HeroSection: FC = () => {
           無料相談・ご予約はこちら
           <ArrowRight className="w-5 h-5 stroke-2" />
         </Link>
-        <span className="text-xs text-slate-500 font-medium">
-          初回 <span className="text-cyan-600 font-bold">50% OFF</span>
+        <span className="text-sm text-slate-500 font-medium">
+          初回 <span className="text-cyan-700 font-bold">50% OFF</span>
         </span>
       </div>
 
@@ -54,8 +54,8 @@ const HeroSection: FC = () => {
         ].map((b) => (
           <div key={b.label} className="flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-cyan-100 rounded-full px-3 py-1.5 shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 shrink-0" />
-            <span className="text-[11px] font-bold text-slate-700">{b.label}</span>
-            <span className="text-[10px] text-slate-500">{b.sub}</span>
+            <span className="text-xs font-bold text-slate-700">{b.label}</span>
+            <span className="text-xs text-slate-500">{b.sub}</span>
           </div>
         ))}
       </div>
@@ -63,7 +63,7 @@ const HeroSection: FC = () => {
   );
 
   return (
-    <section className="relative w-full min-h-[88vh] flex items-center justify-center overflow-hidden">
+    <section className="relative w-full min-h-[88svh] flex items-center justify-center overflow-hidden">
 
       {/* 背景画像レイヤー */}
       <div className="absolute inset-0 z-0">
@@ -72,8 +72,6 @@ const HeroSection: FC = () => {
           alt="ストレッチ施術のイメージ"
           fill
           sizes="100vw"
-          quality={100}
-          unoptimized
           className="object-cover object-[50%_15%] scale-[1.15] transition-none"
           priority
         />
@@ -91,7 +89,7 @@ const HeroSection: FC = () => {
       {/* 装飾ライン（PCのみ） */}
       <div className="absolute right-10 top-1/2 -translate-y-1/2 z-10 opacity-25 hidden md:flex flex-col items-center gap-3">
         <div className="w-px h-24 bg-linear-to-b from-transparent via-cyan-400 to-transparent" />
-        <span className="text-[9px] tracking-[0.25em] text-cyan-500 font-bold uppercase rotate-90 whitespace-nowrap origin-center translate-y-2">Personal Stretch</span>
+        <span className="text-xs tracking-[0.25em] text-cyan-700 font-bold uppercase rotate-90 whitespace-nowrap origin-center translate-y-2">Personal Stretch</span>
       </div>
 
       {/* コンテンツ */}
@@ -103,7 +101,7 @@ const HeroSection: FC = () => {
 
       {/* スクロールインジケーター */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 opacity-40">
-        <span className="text-[9px] tracking-widest uppercase text-slate-500 font-semibold">Scroll</span>
+        <span className="text-xs tracking-widest uppercase text-slate-500 font-semibold">Scroll</span>
         <div className="w-px h-7 bg-linear-to-b from-cyan-400 to-transparent" />
       </div>
     </section>

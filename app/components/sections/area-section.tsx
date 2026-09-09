@@ -20,20 +20,19 @@ const AreaSection = () => {
       <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
         <div className="shrink-0">
           <Image
-            src="/images/osaka.png"
+            src="/images/osaka.webp"
             alt="出張エリア"
             width={320}
             height={240}
             className="object-contain h-auto mix-blend-multiply"
-            priority={true}
           />
         </div>
         <div>
-          <p className="text-[11px] font-bold text-cyan-600 tracking-[0.18em] uppercase mb-2">Service Area</p>
+          <p className="text-xs font-bold text-cyan-700 tracking-[0.18em] uppercase mb-2">Service Area</p>
           <h2 className="heading-jp text-2xl md:text-3xl font-black text-slate-800 mb-3">大阪全域 対応</h2>
           <div className="w-10 h-0.5 rounded-full bg-linear-to-r from-cyan-400 to-cyan-600 mb-4" />
-          <p className="text-slate-500 text-sm md:text-base leading-relaxed">
-            {FREE_AREA_LABEL}エリアは<span className="text-cyan-600 font-semibold">出張費無料</span>。<br />
+          <p className="text-slate-600 text-base leading-relaxed">
+            {FREE_AREA_LABEL}エリアは<span className="text-cyan-700 font-semibold">出張費無料</span>。<br />
             その他のエリアの出張費はお問い合わせください。
           </p>
         </div>
@@ -47,16 +46,16 @@ const AreaSection = () => {
               <div className="w-8 h-8 rounded-lg bg-cyan-100 flex items-center justify-center shrink-0">
                 <MapPin className="w-4 h-4 text-cyan-600" />
               </div>
-              <h3 className="text-base font-bold text-slate-800">{area.name}</h3>
+              <h3 className="text-lg font-bold text-slate-800">{area.name}</h3>
               {area.isFree && (
-                <span className="ml-auto text-[10px] font-bold text-white bg-linear-to-r from-red-500 to-orange-500 px-2 py-0.5 rounded-full whitespace-nowrap">
+                <span className="ml-auto text-xs font-bold text-white bg-linear-to-r from-red-600 to-orange-700 px-2 py-0.5 rounded-full whitespace-nowrap">
                   無料
                 </span>
               )}
             </div>
             <div className="flex flex-wrap gap-1.5">
               {area.districts.map((d) => (
-                <span key={d} className="text-[11px] font-medium text-slate-600 bg-slate-50 border border-slate-100 rounded-md px-2 py-0.5">
+                <span key={d} className="text-xs font-medium text-slate-600 bg-slate-50 border border-slate-200 rounded-md px-2 py-0.5">
                   {d}
                 </span>
               ))}
@@ -73,8 +72,8 @@ const AreaSection = () => {
               <div className={`w-14 h-14 rounded-2xl ${color} flex items-center justify-center`}>
                 <Icon className="w-7 h-7" />
               </div>
-              <p className="text-sm font-bold text-slate-700">{label}</p>
-              <p className="text-slate-500 text-sm leading-relaxed whitespace-pre-line">{body}</p>
+              <p className="text-base font-bold text-slate-700">{label}</p>
+              <p className="text-slate-600 text-base leading-relaxed whitespace-pre-line">{body}</p>
             </div>
           ))}
         </div>

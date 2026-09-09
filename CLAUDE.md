@@ -31,16 +31,16 @@ npm run lint   # ESLint
 
 ## ページ構成
 
-| パス | 内容 | 主なコンポーネント |
-|------|------|------|
-| `/` | トップ（Hero＋お悩み＋特徴要約＋料金抜粋＋CTA） | `hero` / `concerns` / `features-digest` / `price-section` |
-| `/about` | サービス紹介・特徴 | `features-section` |
-| `/trainer` | トレーナー紹介 | `trainer-section` |
-| `/price` | **料金・コース**（単発 / 初回体験 / 回数券 / 学生割引） | `components/price/*` |
-| `/results` | お客様の変化（Before/After） | `bodychange-section` |
-| `/area` | 出張エリア | `area-section` |
-| `/faq` | よくある質問 | `faq-section`（`FAQ_ITEMS`） |
-| `/contact` | ご予約・お問い合わせ | `contact-section` |
+| パス       | 内容                                                    | 主なコンポーネント                                        |
+| ---------- | ------------------------------------------------------- | --------------------------------------------------------- |
+| `/`        | トップ（Hero＋お悩み＋動画＋特徴要約＋料金要約＋CTA）   | `hero` / `concerns` / `video-section` / `features-digest` / `price-section` |
+| `/about`   | サービス紹介・特徴                                      | `features-section`                                        |
+| `/trainer` | トレーナー紹介                                          | `trainer-section`                                         |
+| `/price`   | **料金・コース**（単発 / 初回体験 / 回数券 / 学生割引） | `components/price/*`                                      |
+| `/results` | お客様の変化（Before/After）                            | `bodychange-section`                                      |
+| `/area`    | 出張エリア                                              | `area-section`                                            |
+| `/faq`     | よくある質問                                            | `faq-section`（`FAQ_ITEMS`）                              |
+| `/contact` | ご予約・お問い合わせ                                    | `contact-section`                                         |
 
 - ページ間の遷移は `next/link` を使う（`scrollIntoView` によるアンカー移動は HP 化に伴い廃止）。
 - ヘッダー／フッター／サイトマップのリンクは `NAV_ITEMS`（`app/lib/constants.ts`）から生成される。
@@ -55,6 +55,11 @@ npm run lint   # ESLint
 - **同じセクションコンポーネントを複数ページに置かない。** 文言がそのまま重複する。
   トップページには要約版（`features-digest-section` / `price-section`）を、
   下層ページには詳細版（`features-section` / `components/price/*`）を置く。
+  - 料金は**トップ＝`price-summary`（金額だけ）／`/price`＝`single-price-cards`（特徴＋予約ボタン）**。
+    以前は両ページが `single-price-cards` を共用しており、トップで最も縦に長いブロックになるうえ
+    `/price` を見る理由が無くなっていた。**トップに `single-price-cards` / `first-time-banner` を戻さないこと。**
+  - トップの動画枠（`video-section`）に**トレーナーの紹介文・資格・肩書きを書かない**。
+    それは `/trainer` の担当であり、書くと文言が重複する。動画枠は動画を置くだけに限る。
 - `PageHero` の `lead` は、そのページ本文にある文と重複しない内容にする。
 - 旧LPのアンカーリンク（`#price` 等）は `components/legacy-hash-redirect.tsx` が新ページへ転送する。
   URLフラグメントはサーバーに届かないため `next.config.ts` の `redirects()` では処理できない。
@@ -69,22 +74,22 @@ JSON-LD の `makesOffer`（`layout.tsx`）も同じ関数を通して生成し�
 ### 基本単価（単発・税込）
 
 | コース | 通常料金 |
-|--------|---------|
-| 40分 | 6,000円 |
-| 60分 | 9,000円 |
-| 80分 | 12,000円 |
+| ------ | -------- |
+| 40分   | 6,000円  |
+| 60分   | 9,000円  |
+| 80分   | 12,000円 |
 
 ### 割引の適用ルール
 
-| 区分 | 割引率 | 適用対象 | 併用 |
-|------|-------|---------|------|
-| 初回体験 | 50%OFF | 初めての方の**1回目のみ** | 他割引と併用不可 |
-| 新規限定3回券 | 15%OFF | 新規のお客様の回数券購入時 | 他割引と併用不可 |
-| 4回券 / 8回券 / 12回券 | 3% / 6% / 9%OFF | リピーター向け回数券 | 他割引と併用不可 |
-| 学生割引 | 20%OFF | **学生の単発利用のみ** | **回数券には適用しない** |
+| 区分                   | 割引率          | 適用対象                   | 併用                     |
+| ---------------------- | --------------- | -------------------------- | ------------------------ |
+| 初回体験               | 50%OFF          | 初めての方の**1回目のみ**  | 他割引と併用不可         |
+| 新規限定3回券          | 15%OFF          | 新規のお客様の回数券購入時 | 他割引と併用不可         |
+| 4回券 / 8回券 / 12回券 | 3% / 6% / 9%OFF | リピーター向け回数券       | 他割引と併用不可         |
+| 学生割引               | 20%OFF          | **学生の単発利用のみ**     | **回数券には適用しない** |
 
 - **「学生 × 回数券」は仕様として存在しない。** 画面・型・関数のいずれにも作らないこと。
-  - `pricing.ts` に学生と `TicketPlan` を組み合わせる関数は**意図的に用意していない**。
+    - `pricing.ts` に学生と `TicketPlan` を組み合わせる関数は**意図的に用意していない**。
 - 学生の初回利用は初回体験50%OFF の方が安いため、初回は50%OFF、2回目以降に学生20%OFF を適用する。
 - 全価格が `基本単価 × 回数 × (1 − 割引率)` で端数なく割り切れることを検証済み。算出は `Math.round()` を使用する。
 - 料金を変更した際は、**画面に出る全価格を `docs/hp-renewal-plan.md` §2 の表と突き合わせて検証する**こと。
@@ -106,9 +111,11 @@ app/
       section.tsx       # 共通セクション枠（見出し＋区切り装飾）
       page-hero.tsx     # 下層ページの見出し＋パンくず
       cta-band.tsx      # ページ末尾の共通CTA＋関連ページ導線
+      sticky-cta.tsx    # SP専用の固定予約バー（ヘッダーCTAが lg 未満で消えるため）
     price/              # 料金表示コンポーネント群
-      first-time-banner.tsx    # 初回50%OFFバナー（/ と /price で共用）
-      single-price-cards.tsx   # 単発3コース
+      first-time-banner.tsx    # 初回50%OFFバナー（/price 専用）
+      price-summary.tsx        # 単発3コースの金額のみ（トップ専用の要約版）
+      single-price-cards.tsx   # 単発3コース（特徴＋予約ボタン付き / /price 専用）
       newcomer-guide.tsx       # 初回50%OFF と 新規3回券 の使い分け
       newcomer-ticket.tsx      # 新規限定3回券
       ticket-table.tsx         # 回数券（PC=表 / SP=タブ）
@@ -126,13 +133,16 @@ app/
       bodychange-section.tsx
       area-section.tsx
       contact-section.tsx   # お問い合わせフォーム（セキュリティ実装あり）
+      video-section.tsx     # トップの動画枠（動画を置くだけ。紹介文は書かない）
       footer-section.tsx
     ui/
       scroll-reveal.tsx     # IntersectionObserver によるスクロール表示
+      video-player.tsx      # クリックで初めて動画を読み込むプレーヤー（ファサード方式）
   lib/
-    types.ts      # 型定義（Course, TicketPlan, PriceTier, ServiceArea, FaqItem）
+    types.ts      # 型定義（Course, TicketPlan, PriceTier, ServiceArea, FaqItem, SiteVideo）
     constants.ts  # 定数（COURSES, TICKET_PLANS, 割引率, DISCOUNT_RULES, NAV_ITEMS,
-                  #   FAQ_ITEMS, SERVICE_AREAS, FREE_AREA_LABEL, CONTACT_INFO, SITE_CONFIG）
+                  #   FAQ_ITEMS, SERVICE_AREAS, FREE_AREA_LABEL, CONTACT_INFO, SITE_CONFIG,
+                  #   INTRO_VIDEO, INTRO_VIDEO_PLACEHOLDER）
     pricing.ts    # 価格算出の純関数（calcTicketPrice / calcFirstTimePrice /
                   #   calcStudentPrice / formatYen / discountLabel）
     contact.ts       # 予約フォームの型・選択肢・文字数上限・EmailJS変換（クライアント／サーバー共有）
@@ -144,7 +154,8 @@ docs/
   ui-ux-improvement-spec.md # UI/UX 改善仕様書（優先度つきの実装指示）
 design-system/reborn-stretch/
   MASTER.md            # デザインシステム（色・タイポ・余白・モーション・a11y の一次情報）
-public/images/         # 画像アセット（before/after, trainer, hero等）
+public/images/         # 画像アセット（before/after, trainer, hero等。写真は WebP）
+public/videos/         # 動画アセット（README.md に必要ファイルと ffmpeg コマンド）
 ```
 
 ## コーディング規約
@@ -170,6 +181,18 @@ public/images/         # 画像アセット（before/after, trainer, hero等）
   ここを直せば3箇所すべてに反映される。受付時間も同様に `CONTACT_INFO.businessHours` を使う。
 - **型追加**: `app/lib/types.ts` に追加する。
 - **`"use client"`**: 状態やイベントを持つコンポーネントのみに付ける。ページ本体はサーバーコンポーネントのままにする。
+- **画像**: 写真は WebP、`next/image` を必ず使う。**`unoptimized` は禁止**（WebP変換と srcset が無効になる）。
+  `priority` はファーストビューに入る画像のみ（1ページ1〜2枚）。
+  `width`/`height` は**実寸の縦横比**を指定する（比がずれると `object-cover` が被写体を切り落とす）。
+- **動画**: `app/lib/constants.ts` の `INTRO_VIDEO` に設定し、`ui/video-player.tsx` を使う。
+  **自動再生しない**（ポスター＋クリック再生のファサード方式）。**字幕（.vtt）は必須**
+  （WCAG 2.1 レベルA / 1.2.2）。詳細は MASTER.md §7-1。
+  - 動画が未納品のあいだは `INTRO_VIDEO` を `null` にする。トップの動画枠は描画されない。
+  - `INTRO_VIDEO_PLACEHOLDER` は**見た目確認用のダミー。公開前に `null` に戻すこと。**
+- **アクセシビリティ**: 操作要素は 44×44px 以上、`:focus-visible` が効くこと（`globals.css` で全体に定義済み）。
+  濃色背景のセクションのルート要素には `.on-dark` を付ける（フォーカスリングが白になる）。
+  アニメーションは `prefers-reduced-motion` を尊重する。**`opacity:0` を初期値に持つ実装は
+  CSS だけでなく JS 側でも分岐させる**（`ui/scroll-reveal.tsx` が実装例）。
 
 ## 環境変数（.env.local が必須）
 
@@ -199,11 +222,20 @@ NEXT_PUBLIC_USE_CONTACT_API=true # これだけで送信経路が切り替わる
 送信するのは氏名・連絡先・希望コース（40/60/80分）・希望日時・自由記述のみ。
 回数券や学生割引の希望は自由記述欄か当日の口頭で受け付ける。
 
+### コースの事前選択（`?course=`）
+
+`/price` の「このコースで予約する」から `/contact?course=min60` の形で渡り、
+「希望のストレッチコース」の初期値になる。`COURSES` に実在する id のときだけ採用する。
+
+**`next/navigation` の `useSearchParams` は使わないこと。** あれは Suspense 境界を要求し、
+その結果**フォーム全体が SSR の HTML から消えて**ハイドレートまで空白が出る（一度実装して差し戻した）。
+`useEffect` 内で `new URLSearchParams(window.location.search)` を読み、`setValue` で反映する。
+
 ## セキュリティ実装（変更時は必ず維持すること）
 
-| 場所                      | 実装内容                                                            |
-| ------------------------- | ------------------------------------------------------------------- |
-| `contact-section.tsx`     | ハニーポット・2秒遅延（ボット対策）・react-hook-form バリデーション |
+| 場所                      | 実装内容                                                                                        |
+| ------------------------- | ----------------------------------------------------------------------------------------------- |
+| `contact-section.tsx`     | ハニーポット・2秒遅延（ボット対策）・react-hook-form バリデーション                             |
 | `api/send-email/route.ts` | IP単位レート制限（5分3件）・入力サニタイゼーション（XSS対策）・選択式フィールドの許可値チェック |
 
 フォーム周りを変更したら、上記4点（ハニーポット / 2秒遅延 / レート制限 / サニタイズ）が

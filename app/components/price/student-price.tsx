@@ -27,8 +27,8 @@ const StudentPrice = () => (
           className="rounded-xl bg-white border border-cyan-100/80 px-5 py-4 flex items-center justify-between sm:flex-col sm:items-start sm:gap-1"
         >
           <div>
-            <p className="text-sm font-bold text-slate-700">{course.label}</p>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-base font-bold text-slate-700">{course.label}</p>
+            <p className="text-sm text-slate-500">
               通常 <span className="line-through">¥{formatYen(course.basePrice)}</span>
             </p>
           </div>

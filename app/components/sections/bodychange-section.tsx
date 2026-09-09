@@ -6,6 +6,12 @@ type BodyChangeCase = {
   afterSrc: string;
   beforeAlt?: string;
   afterAlt?: string;
+  /**
+   * 画像の実寸。★実際の縦横比と一致させること。
+   * 比がずれていると object-cover が姿勢写真の頭や足を切り落とす。
+   */
+  width: number;
+  height: number;
 };
 
 type BodyChangeSectionProps = {
@@ -20,25 +26,26 @@ const BodyChangeSection = ({ cases = [] }: BodyChangeSectionProps) => (
           Before / After
         </h2>
       </div>
-      <span className="sm:ml-auto text-xs text-slate-400 sm:pb-0.5">※ ストレッチ時間 15分</span>
+      <span className="sm:ml-auto text-sm text-slate-500 sm:pb-0.5">※ ストレッチ時間 15分</span>
     </div>
 
     <div className="space-y-8">
       {cases.map((c, index) => (
-        <div key={index} className="grid gap-3 md:gap-5 md:grid-cols-[1fr_auto_1fr] items-center">
+        <div key={index} className="grid gap-3 md:gap-5 md:grid-cols-[1fr_auto_1fr] items-start">
           {/* Before */}
           <article className="relative rounded-2xl overflow-hidden card-premium">
-            <div className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 bg-slate-800/90 text-white text-[11px] font-bold px-3 py-1 rounded-full backdrop-blur-sm">
+            <div className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 bg-slate-800/90 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
               Before
             </div>
             <Image
               src={c.beforeSrc}
               alt={c.beforeAlt ?? `施術前（Before ${index + 1}）`}
-              width={640}
-              height={400}
-              className="w-full h-auto object-cover"
-              priority={true}
+              width={c.width}
+              height={c.height}
+              sizes="(max-width: 768px) 100vw, 45vw"
+              className="w-full h-auto"
+              priority={index === 0}
             />
           </article>
 
@@ -54,24 +61,25 @@ const BodyChangeSection = ({ cases = [] }: BodyChangeSectionProps) => (
 
           {/* After */}
           <article className="relative rounded-2xl overflow-hidden card-premium ring-1 ring-cyan-200">
-            <div className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 bg-cyan-600/90 text-white text-[11px] font-bold px-3 py-1 rounded-full backdrop-blur-sm">
+            <div className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 bg-cyan-700/90 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-200" />
               After
             </div>
             <Image
               src={c.afterSrc}
               alt={c.afterAlt ?? `施術後（After ${index + 1}）`}
-              width={640}
-              height={400}
-              className="w-full h-auto object-cover"
-              priority={true}
+              width={c.width}
+              height={c.height}
+              sizes="(max-width: 768px) 100vw, 45vw"
+              className="w-full h-auto"
+              priority={index === 0}
             />
           </article>
         </div>
       ))}
     </div>
 
-    <p className="mt-8 text-center text-xs text-slate-400">
+    <p className="mt-8 text-center text-sm text-slate-500">
       ※ 写真はイメージです。効果には個人差があります。
     </p>
   </section>

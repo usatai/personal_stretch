@@ -33,14 +33,14 @@ const NewcomerGuide = () => {
     cyan: {
       card: "border-cyan-200 bg-linear-to-br from-cyan-50/70 to-white",
       icon: "bg-cyan-100 text-cyan-700",
-      badge: "bg-cyan-600 text-white",
+      badge: "bg-cyan-700 text-white",
       price: "text-cyan-700",
     },
     orange: {
       card: "border-orange-200 bg-linear-to-br from-orange-50/70 to-white",
-      icon: "bg-orange-100 text-orange-600",
-      badge: "bg-orange-500 text-white",
-      price: "text-orange-600",
+      icon: "bg-orange-100 text-orange-700",
+      badge: "bg-orange-700 text-white",
+      price: "text-orange-700",
     },
   };
 
@@ -51,7 +51,7 @@ const NewcomerGuide = () => {
           const s = accentStyles[accent];
           return (
             <article key={title} className={`rounded-2xl border p-6 md:p-7 ${s.card}`}>
-              <span className={`inline-block text-[11px] font-bold px-3 py-1 rounded-full mb-4 ${s.badge}`}>
+              <span className={`inline-block text-xs font-bold px-3 py-1 rounded-full mb-4 ${s.badge}`}>
                 {badge}
               </span>
               <div className="flex items-start gap-3 mb-3">

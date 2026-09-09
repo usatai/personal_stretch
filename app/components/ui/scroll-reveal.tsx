@@ -18,6 +18,14 @@ export function ScrollReveal({
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    // 動きを減らす設定のときはアニメーションせず即座に表示する。
+    // CSS で transition を止めるだけだと opacity-0 が残り、
+    // コンテンツが永久に見えなくなるため JS 側でも分岐する。
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setVisible(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

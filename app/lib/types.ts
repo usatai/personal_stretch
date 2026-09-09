@@ -74,3 +74,23 @@ export interface FaqItem {
   question: string;
   answer: string;
 }
+
+/**
+ * 埋め込み動画。実データは constants.ts の INTRO_VIDEO が唯一の情報源。
+ * ★captionSrc は必須。音声付きの録画動画に字幕を付けることは
+ *   WCAG 2.1 レベルA（1.2.2）の要件であり、任意項目にしてはいけない。
+ */
+export interface SiteVideo {
+  src: string;
+  poster: string;
+  /** WebVTT 字幕ファイル（日本語） */
+  captionSrc: string;
+  /** 動画の実寸。縦横比の確保に使い、CLS を防ぐ */
+  width: number;
+  height: number;
+  /** 構造化データ（VideoObject）に使う */
+  title: string;
+  description: string;
+  /** ISO 8601（例: "2026-09-08"） */
+  uploadDate: string;
+}

@@ -1,4 +1,5 @@
-import { Check } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Check } from "lucide-react";
 import { COURSES } from "@/app/lib/constants";
 import { calcFirstTimePrice, formatYen } from "@/app/lib/pricing";
 
@@ -17,7 +18,7 @@ const SinglePriceCards = () => (
           }`}
         >
           {course.isPopular && (
-            <div className="bg-linear-to-r from-cyan-500 to-cyan-600 text-white text-[11px] font-bold tracking-widest uppercase text-center py-2 px-4">
+            <div className="bg-linear-to-r from-cyan-700 to-cyan-800 text-white text-xs font-bold tracking-widest uppercase text-center py-2 px-4">
               Most Popular
             </div>
           )}
@@ -31,19 +32,19 @@ const SinglePriceCards = () => (
               <span className="text-3xl md:text-4xl font-black text-slate-900">
                 ¥{formatYen(course.basePrice)}
               </span>
-              <span className="text-slate-500 text-sm">（税込）</span>
+              <span className="text-slate-600 text-sm">（税込）</span>
             </div>
 
             {/* 初回体験価格 */}
             <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-full px-4 py-1.5 mb-6 self-start">
-              <span className="text-[11px] font-bold text-orange-600">初回限定 50% OFF</span>
-              <span className="font-black text-slate-800 text-sm">→ ¥{formatYen(firstTime)}</span>
+              <span className="text-xs font-bold text-orange-700">初回限定 50% OFF</span>
+              <span className="font-black text-slate-800 text-base">→ ¥{formatYen(firstTime)}</span>
             </div>
 
             {/* 特徴リスト */}
             <ul className="space-y-2.5 flex-1">
               {course.features.map((feat) => (
-                <li key={feat} className="flex items-center gap-2.5 text-sm text-slate-600">
+                <li key={feat} className="flex items-center gap-2.5 text-base text-slate-600">
                   <span className="w-5 h-5 rounded-full bg-cyan-100 flex items-center justify-center shrink-0">
                     <Check className="w-3 h-3 text-cyan-600 stroke-[2.5]" />
                   </span>
@@ -51,6 +52,16 @@ const SinglePriceCards = () => (
                 </li>
               ))}
             </ul>
+
+            {/* コースを選んだ直後に予約へ進めるようにする。
+                ?course= は予約フォームの「希望のコース」の初期値になる。 */}
+            <Link
+              href={`/contact?course=${course.id}`}
+              className="btn-cyan mt-6 inline-flex items-center justify-center gap-2 w-full min-h-12 px-6 rounded-full text-base"
+            >
+              このコースで予約する
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </article>
       );

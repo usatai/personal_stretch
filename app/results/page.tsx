@@ -17,10 +17,12 @@ export const metadata: Metadata = {
   },
 };
 
+// width / height は画像の実寸。縦横比がずれると姿勢写真が切り取られるため、
+// 画像を差し替えたときは必ず実寸に更新すること。
 const cases = [
-  { beforeSrc: "/images/before1.png", afterSrc: "/images/after1.png" },
-  { beforeSrc: "/images/before2.png", afterSrc: "/images/after2.png" },
-  { beforeSrc: "/images/before3.png", afterSrc: "/images/after3.png" },
+  { beforeSrc: "/images/before1.webp", afterSrc: "/images/after1.webp", width: 478, height: 770 },
+  { beforeSrc: "/images/before2.webp", afterSrc: "/images/after2.webp", width: 606, height: 812 },
+  { beforeSrc: "/images/before3.webp", afterSrc: "/images/after3.webp", width: 608, height: 816 },
 ];
 
 export default function ResultsPage() {

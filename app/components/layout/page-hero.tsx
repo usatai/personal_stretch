@@ -22,9 +22,12 @@ const PageHero = ({ eyebrow, title, lead }: PageHeroProps) => (
     <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-14 md:pt-16 md:pb-20">
       {/* パンくず */}
       <nav aria-label="パンくずリスト" className="mb-6">
-        <ol className="flex items-center gap-1.5 text-[11px] text-slate-400">
+        <ol className="flex items-center gap-1.5 text-xs text-slate-500">
           <li>
-            <Link href="/" className="hover:text-cyan-600 transition-colors">
+            <Link
+              href="/"
+              className="inline-flex items-center min-h-11 hover:text-cyan-700 transition-colors"
+            >
               ホーム
             </Link>
           </li>
@@ -35,7 +38,7 @@ const PageHero = ({ eyebrow, title, lead }: PageHeroProps) => (
         </ol>
       </nav>
 
-      <p className="font-mono text-[10px] font-black text-cyan-500 tracking-[0.3em] uppercase mb-3">
+      <p className="font-mono text-xs font-black text-cyan-700 tracking-[0.3em] uppercase mb-3">
         {eyebrow}
       </p>
       <h1 className="heading-jp text-3xl sm:text-4xl md:text-5xl font-black text-slate-800 leading-tight">
@@ -43,7 +46,7 @@ const PageHero = ({ eyebrow, title, lead }: PageHeroProps) => (
       </h1>
       <div className="mt-5 w-12 h-0.5 rounded-full bg-linear-to-r from-cyan-400 to-cyan-600" />
       {lead && (
-        <p className="mt-6 max-w-2xl text-sm md:text-base text-slate-500 leading-[1.9]">{lead}</p>
+        <p className="mt-6 max-w-2xl text-base text-slate-600 leading-[1.9]">{lead}</p>
       )}
     </div>
   </section>

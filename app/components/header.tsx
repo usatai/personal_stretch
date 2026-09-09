@@ -37,13 +37,12 @@ const Header = () => {
         {/* ロゴ */}
         <Link href="/" className="flex items-center gap-3 group" aria-label="Reborn Stretch トップページ">
           <div className="relative w-11 h-11 md:w-12 md:h-12 rounded-full bg-linear-to-br from-cyan-400 to-cyan-600 flex flex-col items-center justify-center shadow-[0_4px_14px_rgba(6,182,212,0.40)] group-hover:shadow-[0_6px_20px_rgba(6,182,212,0.55)] transition-all duration-300 group-hover:scale-105 shrink-0">
-            <span className="text-white font-black text-[8px] leading-none tracking-tight">Reborn</span>
-            <span className="text-white font-black text-[8px] leading-none tracking-tight">Stretch</span>
-            <span className="text-white/75 font-medium text-[6px] leading-none mt-0.5">訪問ストレッチ</span>
+            <span className="text-white font-black text-[10px] leading-tight tracking-tight">Reborn</span>
+            <span className="text-white font-black text-[10px] leading-tight tracking-tight">Stretch</span>
           </div>
           <div className="hidden sm:flex flex-col leading-none gap-0.5">
-            <span className="text-[11px] font-black text-cyan-700 tracking-[0.18em] uppercase">Reborn</span>
-            <span className="text-[11px] font-black text-cyan-500 tracking-[0.18em] uppercase">Stretch</span>
+            <span className="text-xs font-black text-cyan-700 tracking-[0.18em] uppercase">Reborn</span>
+            <span className="text-xs font-black text-cyan-600 tracking-[0.18em] uppercase">Stretch</span>
           </div>
         </Link>
 
@@ -54,8 +53,8 @@ const Header = () => {
               key={item.href}
               href={item.href}
               aria-current={isActive(item.href) ? "page" : undefined}
-              className={`relative text-[13px] font-medium transition-colors duration-200 group py-1 whitespace-nowrap ${
-                isActive(item.href) ? "text-cyan-600" : "text-slate-600 hover:text-cyan-600"
+              className={`relative text-sm font-medium transition-colors duration-200 group py-1 whitespace-nowrap ${
+                isActive(item.href) ? "text-cyan-700" : "text-slate-600 hover:text-cyan-700"
               }`}
             >
               {item.label}
@@ -78,7 +77,7 @@ const Header = () => {
 
         {/* ハンバーガー（SP・タブレット） */}
         <button
-          className="lg:hidden p-2 rounded-lg hover:bg-cyan-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+          className="lg:hidden flex items-center justify-center min-w-11 min-h-11 rounded-lg hover:bg-cyan-50 transition-colors"
           aria-label={isMenuOpen ? "メニューを閉じる" : "メニューを開く"}
           aria-expanded={isMenuOpen}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -96,10 +95,10 @@ const Header = () => {
                 key={item.href}
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
-                className={`w-full text-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
+                className={`flex items-center justify-center w-full min-h-11 px-4 py-3 text-base font-medium rounded-lg transition-all duration-200 ${
                   isActive(item.href)
-                    ? "text-cyan-600 bg-cyan-50"
-                    : "text-slate-600 hover:text-cyan-600 hover:bg-cyan-50/70"
+                    ? "text-cyan-700 bg-cyan-50"
+                    : "text-slate-600 hover:text-cyan-700 hover:bg-cyan-50/70"
                 }`}
               >
                 {item.label}

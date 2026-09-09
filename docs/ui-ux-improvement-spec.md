@@ -8,6 +8,23 @@
 > このドキュメントは**実装指示書**である。各項目は「対象 / 現状 / 変更内容 / 完了条件」で構成し、
 > 判断を挟まずそのまま実装できる粒度で書いてある。数値（コントラスト比・px）はすべて実測値。
 
+## 実装状況（2026-09-08 時点）
+
+**P1 / P2 / P3 はすべて実装済み。** 以下は実装時に指示書から変更した判断。
+
+| 箇所 | 指示書の内容 | 実際の対応 | 理由 |
+|---|---|---|---|
+| P3-3 FAQ の見出し | 各質問を `<h3>` に変更 | **`<h2>` のまま据え置き** | `/faq` は `Section` の見出しを省略しているため、h3 にすると h1→h3 の飛びになる。質問はページ直下の区分なので h2 が正しい |
+| P2 画像 | PNG → WebP 変換 | 実施（5.7MB → 296KB）。**元の PNG は削除していない** | 参照はすべて `.webp` へ切替済み。不要なら別途削除する |
+| Before/After の縦横比 | 指示書に記載なし | `width={640} height={400}`（横長）を実寸の縦長に修正 | 画像は 478×770 等の**縦長**で、横長比の指定と `object-cover` により姿勢写真の上下が切り取られていた |
+| 予約フォームの入力欄 | 指示書に記載なし | `text-sm` → `text-base`（16px）に変更 | 16px 未満だと iOS Safari が入力時にページを自動ズームする |
+| グラデーション帯 | orange-600 → orange-700 | **orange-700 → orange-800** | orange-600 の端では注記の文字が 3.35:1 にしかならず基準を満たさないため |
+| P3-2 の `?course=` 受け取り | `useSearchParams` + `Suspense` | **`useEffect` + `window.location.search`** | `useSearchParams` はフォーム全体を SSR の HTML から消してしまう。後日この方式に差し替え済み |
+
+検証結果: `npm run build` / `npm run lint` 通過、全8ページ 200、見出し階層に飛びなし、
+`/results` の画像転送量 4,760KB → 195KB、`/price` の全価格が `docs/hp-renewal-plan.md` §2 と一致、
+セキュリティ4点（ハニーポット / 2秒遅延 / レート制限 / サニタイズ）は維持。
+
 ---
 
 ## 0. 評価サマリ
@@ -383,8 +400,11 @@ const defaultCourse = COURSES.some((c) => c.id === courseParam) ? courseParam! :
 const { register, ... } = useForm<FormData>({ defaultValues: { choiceStretch: defaultCourse } });
 ```
 
-`useSearchParams` は Suspense 境界を要求するため、`app/contact/page.tsx` の `<ContactSection />` を
-`<Suspense>` で包むこと。ビルドエラーになる。
+**`useSearchParams` は使わないこと。** あれは Suspense 境界を要求し、その結果
+**フォーム全体が SSR の HTML から消えて**ハイドレートまで空白が出る（一度実装して差し戻した）。
+`useEffect` 内で `new URLSearchParams(window.location.search)` を読み、
+`setValue('choiceStretch', course)` で反映する。これなら `/contact` を静的なまま保てて、
+フォームも最初の HTML に含まれる。
 
 > 料金の値は一切扱わない。`CLAUDE.md`「予約フォームの設計方針」のとおり、
 > フォームに料金プランの選択項目は置かない。渡すのはコース（40/60/80分）のみ。
@@ -393,7 +413,7 @@ const { register, ... } = useForm<FormData>({ defaultValues: { choiceStretch: de
 
 | 対象 | 現状 | 変更内容 |
 |---|---|---|
-| `sections/faq-section.tsx:20` | 各質問が `<h2>`（12個並ぶ） | `<h3>` に変更。ページの `h1` は `PageHero`、Q&A は下位項目 |
+| `sections/faq-section.tsx:20` | 各質問が `<h2>`（12個並ぶ） | **変更しない。** `/faq` は `Section` の見出しを省略しており、h3 にすると h1→h3 の飛びになる。質問はページ直下の区分なので `<h2>` が正しい |
 | `sections/bodychange-section.tsx:19` | `<h2 id="bodychange-title">` | そのままで良い（`/results` 内で唯一の h2） |
 | `sections/trainer-section.tsx:33` | トレーナー名が `<h2>` | そのままで良い |
 | `sections/area-section.tsx:33` | 「大阪全域 対応」が `<h2>` | そのままで良い |

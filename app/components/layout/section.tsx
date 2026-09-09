@@ -38,7 +38,7 @@ const Section = ({ id, subTitle, mainTitle, lead, children, className = "" }: Se
               <div className="h-px w-8 bg-cyan-300 rounded-full" />
             </div>
             {lead && (
-              <p className="mt-6 text-sm md:text-base text-slate-500 leading-[1.9] max-w-2xl mx-auto">
+              <p className="mt-6 text-base text-slate-600 leading-[1.9] max-w-2xl mx-auto">
                 {lead}
               </p>
             )}

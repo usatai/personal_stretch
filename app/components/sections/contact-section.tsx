@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useForm, SubmitHandler, FieldError } from 'react-hook-form';
 import { UseFormRegister } from 'react-hook-form';
 import { CheckCircle2, Send } from 'lucide-react';
@@ -27,9 +27,11 @@ type FormFieldProps = {
   children: React.ReactNode;
 };
 
+// text-base（16px）は必須。16px 未満だと iOS Safari が入力欄フォーカス時に
+// ページを自動ズームし、レイアウトが崩れる。
 const inputStyle =
-  "w-full p-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 outline-none transition-all duration-200 text-slate-800 placeholder:text-slate-400 text-sm";
-const errorInputStyle = "border-red-400 ring-1 ring-red-400";
+  "w-full p-3 min-h-12 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none transition-all duration-200 text-slate-800 placeholder:text-slate-500 text-base";
+const errorInputStyle = "border-red-600 ring-1 ring-red-600";
 
 const validatePhone = (v: string) => {
   const digits = v.replace(/\D/g, '').length;
@@ -50,34 +52,72 @@ const HoneyPot = ({ register }: { register: UseFormRegister<FormData> }) => (
   </div>
 );
 
-const FormField = ({ label, name, error, required, children }: FormFieldProps) => (
-  <div className="space-y-1.5">
-    <label htmlFor={name} className="flex items-center gap-2 text-sm font-semibold text-slate-700">
-      {label}
-      {required
-        ? <span className="text-[10px] font-bold bg-red-500 text-white px-2 py-0.5 rounded-full">必須</span>
-        : <span className="text-[10px] font-medium bg-slate-300 text-white px-2 py-0.5 rounded-full">任意</span>}
-    </label>
-    {children}
-    {error && (
-      <p className="text-red-500 text-xs flex items-center gap-1">
-        <span className="w-3 h-3 rounded-full bg-red-100 flex items-center justify-center text-[8px] font-bold shrink-0">!</span>
-        {error.message || `${label}が不正です。`}
-      </p>
-    )}
-  </div>
-);
+/**
+ * 入力欄1つ分の枠。
+ * ★エラー時の aria-invalid / aria-describedby は、ここで children に注入している。
+ *   各入力欄側に書くと付け忘れが起きるため、この1箇所に集約する。
+ */
+const FormField = ({ label, name, error, required, children }: FormFieldProps) => {
+  const errorId = `${name}-error`;
+  const describedBy = error ? errorId : undefined;
+
+  return (
+    <div className="space-y-1.5">
+      <label htmlFor={name} className="flex items-center gap-2 text-base font-semibold text-slate-700">
+        {label}
+        {required
+          ? <span className="text-xs font-bold bg-red-600 text-white px-2 py-0.5 rounded-full">必須</span>
+          : <span className="text-xs font-medium bg-slate-500 text-white px-2 py-0.5 rounded-full">任意</span>}
+      </label>
+
+      {React.isValidElement<{ 'aria-invalid'?: boolean; 'aria-describedby'?: string }>(children)
+        ? React.cloneElement(children, {
+            'aria-invalid': error ? true : undefined,
+            'aria-describedby': describedBy,
+          })
+        : children}
+
+      {error && (
+        // role="alert" で読み上げる。色（赤）だけで伝えず、アイコンと文言を併記する。
+        <p id={errorId} role="alert" className="text-red-600 text-sm flex items-center gap-1.5">
+          <span className="w-4 h-4 rounded-full bg-red-100 text-red-700 flex items-center justify-center text-[10px] font-bold shrink-0">!</span>
+          {error.message || `${label}が不正です。`}
+        </p>
+      )}
+    </div>
+  );
+};
 
 const ContactSection = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>();
   const [status, setStatus] = useState<Status>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [isFormReady, setIsFormReady] = useState(false);
+  const successRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsFormReady(true), 2000);
     return () => clearTimeout(timer);
   }, []);
+
+  // 料金ページの「このコースで予約する」から ?course=min60 の形で渡ってくる。
+  // ★next/navigation の useSearchParams は使わないこと。
+  //   あれを使うと Suspense 境界が必須になり、フォーム全体が SSR の HTML から消えて
+  //   ハイドレートまで空白が出る。ここでマウント後に読むことで、
+  //   /contact を静的なまま保ちつつフォームを最初の HTML に含められる。
+  //   COURSES に実在する id のときだけ採用し、不正値は初期値にしない。
+  useEffect(() => {
+    const course = new URLSearchParams(window.location.search).get('course');
+    if (course && COURSES.some((c) => c.id === course)) {
+      setValue('choiceStretch', course);
+    }
+  }, [setValue]);
+
+  // 送信完了でフォームが消えるため、完了メッセージへフォーカスを移す。
+  // これがないとスクリーンリーダー利用者には何も起きていないように見える。
+  useEffect(() => {
+    if (status === 'success') successRef.current?.focus();
+  }, [status]);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (data.website) return;
@@ -109,19 +149,24 @@ const ContactSection = () => {
       {/* カード */}
       <div className="bg-white rounded-3xl shadow-[0_8px_40px_rgba(6,182,212,0.12)] border border-cyan-100/70 overflow-hidden">
         {/* ヘッダー帯 */}
-        <div className="bg-linear-to-r from-cyan-600 to-cyan-700 px-8 py-5 text-white">
+        <div className="bg-linear-to-r from-cyan-700 to-cyan-800 px-8 py-5 text-white">
           <h2 className="heading-jp text-xl font-bold">ストレッチ施術のご予約</h2>
-          <p className="text-cyan-100 text-xs mt-1">初回は全コース50% OFF。お気軽にご予約ください。</p>
+          <p className="text-cyan-50 text-sm mt-1">初回は全コース50% OFF。お気軽にご予約ください。</p>
         </div>
 
         <div className="px-6 sm:px-8 py-8">
           {status === 'success' ? (
-            <div className="text-center py-12">
+            <div
+              ref={successRef}
+              role="status"
+              tabIndex={-1}
+              className="text-center py-12 outline-none"
+            >
               <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-                <CheckCircle2 className="w-8 h-8 text-green-500" />
+                <CheckCircle2 className="w-8 h-8 text-green-700" />
               </div>
               <h3 className="heading-jp text-xl font-bold text-slate-800 mb-2">送信完了</h3>
-              <p className="text-slate-500 text-sm leading-relaxed">
+              <p className="text-slate-600 text-base leading-relaxed">
                 お問い合わせありがとうございます。<br />内容を確認の上、担当者よりご連絡いたします。
               </p>
             </div>
@@ -179,7 +224,7 @@ const ContactSection = () => {
               </FormField>
 
               <div className="bg-slate-50 rounded-2xl p-4 space-y-4">
-                <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">第1希望日程</p>
+                <p className="text-sm font-bold text-slate-600 uppercase tracking-widest">第1希望日程</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <FormField label="日付" name="firstChoiceDate" error={errors.firstChoiceDate} required>
                     <input
@@ -205,7 +250,7 @@ const ContactSection = () => {
               </div>
 
               <div className="bg-slate-50 rounded-2xl p-4 space-y-4">
-                <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">第2希望日程（任意）</p>
+                <p className="text-sm font-bold text-slate-600 uppercase tracking-widest">第2希望日程（任意）</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <FormField label="日付" name="secondChoiceDate" error={errors.secondChoiceDate}>
                     <input
@@ -238,7 +283,7 @@ const ContactSection = () => {
                 />
               </FormField>
 
-              <p className="text-[11px] text-slate-400 leading-relaxed">
+              <p className="text-sm text-slate-500 leading-relaxed">
                 ※ 回数券・学生割引をご希望の場合は、お悩み・ご質問欄にご記入いただくか、
                 当日トレーナーへお申し付けください。料金は施術当日にご案内いたします。
               </p>
@@ -246,6 +291,7 @@ const ContactSection = () => {
               <div className="pt-2">
                 <button
                   type="submit"
+                  aria-busy={status === 'loading'}
                   disabled={status === 'loading' || !isFormReady}
                   className="btn-cyan w-full flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl text-base font-bold disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
@@ -254,7 +300,9 @@ const ContactSection = () => {
                     : <><Send className="w-4 h-4" /> この内容で送信する</>}
                 </button>
                 {status === 'error' && (
-                  <p className="text-red-500 text-sm text-center mt-3">{errorMessage}</p>
+                  <p role="alert" aria-live="assertive" className="text-red-600 text-base text-center mt-3">
+                    {errorMessage}
+                  </p>
                 )}
               </div>
             </form>

@@ -30,7 +30,7 @@ const FeaturesDigestSection = () => (
           </div>
           <h3 className="heading-jp text-lg font-bold text-slate-800 leading-snug mb-3">{title}</h3>
           <div className="w-8 h-0.5 rounded-full bg-linear-to-r from-cyan-400 to-cyan-600 mb-4" />
-          <p className="text-sm text-slate-500 leading-[1.9] flex-1">{body}</p>
+          <p className="text-base text-slate-600 leading-[1.9] flex-1">{body}</p>
         </article>
       ))}
     </div>
@@ -38,7 +38,7 @@ const FeaturesDigestSection = () => (
     <div className="mt-8 flex justify-center">
       <Link
         href="/about"
-        className="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-bold text-sm transition-colors duration-200"
+        className="inline-flex items-center gap-2 min-h-11 px-2 text-cyan-700 hover:text-cyan-800 font-bold text-base transition-colors duration-200"
       >
         サービス紹介を詳しく見る
         <ArrowRight className="w-4 h-4" />

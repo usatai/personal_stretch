@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Noto_Serif_JP } from "next/font/google";
 import "./globals.css";
 import Header from "./components/header";
 import FooterSection from "./components/sections/footer-section";
+import StickyCta from "./components/layout/sticky-cta";
 import { COURSES, SITE_CONFIG, TICKET_PLANS } from "./lib/constants";
 import { calcFirstTimePrice, calcTicketPrice, discountLabel } from "./lib/pricing";
 
@@ -181,6 +182,8 @@ export default function RootLayout({
         <Header />
         <main>{children}</main>
         <FooterSection />
+        {/* SP専用の固定予約バー（ヘッダーCTAが lg 未満で消えるため） */}
+        <StickyCta />
       </body>
     </html>
   );

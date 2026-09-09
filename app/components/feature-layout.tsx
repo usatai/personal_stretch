@@ -27,8 +27,8 @@ const FeatureLayout = ({
           alt={alt}
           width={600}
           height={420}
+          sizes="(max-width: 768px) 100vw, 50vw"
           className={`relative object-cover w-full h-auto rounded-2xl shadow-[0_8px_32px_rgba(6,182,212,0.15)] ${imageClassName ?? ''}`}
-          priority={true}
         />
       </div>
 

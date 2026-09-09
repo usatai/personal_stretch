@@ -13,7 +13,9 @@ const SinglePriceCards = () => (
           key={course.id}
           className={`relative flex flex-col rounded-2xl overflow-hidden transition-all duration-300 ${
             course.isPopular
-              ? "ring-2 ring-cyan-500 shadow-cyan-lg scale-[1.02] bg-white"
+              // ★拡大は md: 以上（3カラム）でのみ。SPは1カラムに積まれるため、
+              //   拡大すると人気カードだけ左右にはみ出して他のカードと端が揃わなくなる。
+              ? "ring-2 ring-cyan-500 shadow-cyan-lg md:scale-[1.02] bg-white"
               : "card-premium bg-white"
           }`}
         >

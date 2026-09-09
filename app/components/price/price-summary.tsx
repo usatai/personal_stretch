@@ -16,30 +16,37 @@ const PriceSummary = () => (
   <div className="overflow-hidden rounded-2xl border border-cyan-100 bg-white shadow-cyan-sm">
     <ul className="divide-y divide-cyan-100/70">
       {COURSES.map((course) => (
+        // ★「コース名＋バッジ」と「金額」を必ず別の入れ物に分けること。
+        //   4要素を flex-wrap に直接並べると、人気バッジのある行だけ幅を超えて
+        //   折り返し、その行だけ2行になって他の行とずれる。
         <li
           key={course.id}
-          className="flex flex-wrap items-baseline gap-x-4 gap-y-1 px-5 sm:px-6 py-4"
+          className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 px-5 sm:px-6 py-4"
         >
-          <span className="heading-jp text-lg font-bold text-slate-800 min-w-24">
-            {course.label}
-          </span>
-
-          {course.isPopular && (
-            <span className="text-xs font-bold text-cyan-700 bg-cyan-100 px-2 py-0.5 rounded-full">
-              人気
+          {/* 左: コース名＋バッジ */}
+          <div className="flex items-center gap-2">
+            <span className="heading-jp text-lg font-bold text-slate-800">
+              {course.label}
             </span>
-          )}
+            {course.isPopular && (
+              <span className="text-xs font-bold text-cyan-700 bg-cyan-100 px-2 py-0.5 rounded-full">
+                人気
+              </span>
+            )}
+          </div>
 
-          <span className="ml-auto text-xl font-black text-slate-900 tabular-nums">
-            ¥{formatYen(course.basePrice)}
-          </span>
-
-          <span className="text-sm text-slate-600 whitespace-nowrap">
-            初回{" "}
-            <span className="font-black text-orange-700 tabular-nums">
-              ¥{formatYen(calcFirstTimePrice(course))}
+          {/* 右: 金額。SPでは2行目に回し、全行で同じ位置に揃える */}
+          <div className="flex items-baseline gap-3 sm:ml-auto">
+            <span className="text-xl font-black text-slate-900 tabular-nums">
+              ¥{formatYen(course.basePrice)}
             </span>
-          </span>
+            <span className="text-sm text-slate-600 whitespace-nowrap">
+              初回{" "}
+              <span className="font-black text-orange-700 tabular-nums">
+                ¥{formatYen(calcFirstTimePrice(course))}
+              </span>
+            </span>
+          </div>
         </li>
       ))}
     </ul>
